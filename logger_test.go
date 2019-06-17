@@ -46,7 +46,7 @@ func captureOutput(f func()) string {
 func TestLogLevel_String(t *testing.T) {
 
 	// Set the level
-	var level LogLevel = 0
+	var level LogLevel
 
 	// Test for debug
 	if level.String() != "debug" {
@@ -74,14 +74,14 @@ func TestLogLevel_String(t *testing.T) {
 
 // ExampleLogLevel_String example using level.String()
 func ExampleLogLevel_String() {
-	var level LogLevel = 0
+	var level LogLevel
 	fmt.Println(level.String())
 	// Output:debug
 }
 
 // BenchmarkLogLevel_String benchmarks the level.String() method
 func BenchmarkLogLevel_String(b *testing.B) {
-	var level LogLevel = 0
+	var level LogLevel
 	for i := 0; i < b.N; i++ {
 		_ = level.String()
 	}
