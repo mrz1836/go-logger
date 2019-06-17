@@ -76,7 +76,7 @@ import "github.com/mrz1836/go-logger"
 
 func main() {
 	logger.Data(2, logger.DEBUG, "testing the go-logger package")
-	// Ouput: type="debug" file="example/example.go" method="main.main" line="12" message="testing the go-logger package"
+	// Output: type="debug" file="example/example.go" method="main.main" line="12" message="testing the go-logger package"
 }
 ```
 
