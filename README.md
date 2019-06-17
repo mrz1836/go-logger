@@ -23,6 +23,11 @@
 $ go get -u github.com/mrz1836/go-logger
 ```
 
+For use with [Log Entries](https://logentries.com/), change the environment variables:
+```bash
+export LOG_ENTRIES_TOKEN=your-token-here
+```
+
 Updating dependencies in **go-logger**:
 ```bash
 $ cd ../go-logger
@@ -35,6 +40,7 @@ You can view the generated [documentation here](https://godoc.org/github.com/mrz
 ### Features
 - Native logging package (extends log package)
 - Native support for [Log Entries](https://logentries.com/) with queueing
+- Test coverage on all custom methods
 - todo: @mrz
 
 ## Examples & Tests
