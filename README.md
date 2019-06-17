@@ -35,7 +35,6 @@ You can view the generated [documentation here](https://godoc.org/github.com/mrz
 - Native logging package (extends log package)
 - Native support for [Log Entries](https://logentries.com/) with queueing
 - Test coverage on all custom methods
-- todo: @mrz
 
 ## Examples & Tests
 All unit tests and [examples](example/example.go) run via [Travis CI](https://travis-ci.com/mrz1836/go-logger) and uses [Go version 1.12.x](https://golang.org/doc/go1.12). View the [deployment configuration file](.travis.yml).
