@@ -67,13 +67,13 @@ func init() {
 
 	// Do we have a Log Entries token?
 	if len(logEntriesToken) > 0 {
-		log.Println("go-logger: log entries token detected")
+		log.Println("go-logger: Log Entries token detected")
 		var err error
 		implementation, err = NewLogEntriesClient(logEntriesToken)
 		if err != nil {
-			log.Println("go-logger: failed to eager connect to Log Entries", err)
+			log.Printf("go-logger: failed to eager connect to Log Entries: %s", err.Error())
 		} else {
-			log.Println("go-logger: log entries connection started", err)
+			log.Println("go-logger: Log Entries connection started")
 			go implementation.(*logEntries).ProcessQueue()
 		}
 	} else { // Basic implementation for local logging
