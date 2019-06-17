@@ -215,3 +215,43 @@ func TestData(t *testing.T) {
 		t.Fatalf("expected string: %s, got: %s", `another="value"`, captured)
 	}
 }
+
+// TestLogPkg_Printf test log package printf method
+func TestLogPkg_Printf(t *testing.T) {
+	implementation = &logPkg{}
+
+	captured := captureOutput(func() {
+		implementation.Printf("test this method: %s", "TestPrintf")
+	})
+
+	if !strings.Contains(captured, "test this method: TestPrintf") {
+		t.Fatalf("expected string: %s got: %s", "test this method: TestPrintf", captured)
+	}
+}
+
+// TestLogPkg_Println test log package print line method
+func TestLogPkg_Println(t *testing.T) {
+	implementation = &logPkg{}
+
+	captured := captureOutput(func() {
+		implementation.Println("test this method: TestPrintln")
+	})
+
+	if !strings.Contains(captured, "test this method: TestPrintln") {
+		t.Fatalf("expected string: %s got: %s", "test this method: TestPrintln", captured)
+	}
+}
+
+// TestMakeError test making an error struct
+func TestMakeError(t *testing.T) {
+	err := MakeError("myKey", "myValue")
+	if err.Key() != "myKey" {
+		t.Fatalf("expected value: %s, got: %s", "myKey", err.Key())
+	}
+	if err.Value() != "myValue" {
+		t.Fatalf("expected value: %s, got: %s", "myValue", err.Value())
+	}
+	if err.Error() != `{"key":"myKey","value":"myValue"}` {
+		t.Fatalf("expected value: %s, got: %s", `{"key":"myKey","value":"myValue"}`, err.Error())
+	}
+}
