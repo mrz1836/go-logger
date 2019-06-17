@@ -2,6 +2,7 @@ package logger
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -71,6 +72,21 @@ func TestLogLevel_String(t *testing.T) {
 	}
 }
 
+// ExampleLogLevel_String example using level.String()
+func ExampleLogLevel_String() {
+	var level LogLevel = 0
+	fmt.Println(level.String())
+	// Output:debug
+}
+
+// BenchmarkLogLevel_String benchmarks the level.String() method
+func BenchmarkLogLevel_String(b *testing.B) {
+	var level LogLevel = 0
+	for i := 0; i < b.N; i++ {
+		_ = level.String()
+	}
+}
+
 // TestFileTag test file tag method
 func TestFileTag(t *testing.T) {
 
@@ -78,6 +94,20 @@ func TestFileTag(t *testing.T) {
 	fileTag := FileTag(1)
 	if !strings.Contains(fileTag, "go-logger/logger_test.go:go-logger.TestFileTag:") {
 		t.Fatalf("expected file tag: %s, got: %s", "go-logger/logger_test.go:go-logger.TestFileTag:", fileTag)
+	}
+}
+
+// ExampleFileTag example using FileTag()
+func ExampleFileTag() {
+	fileTag := FileTag(1)
+	fmt.Println(fileTag)
+	// Output:go-logger/logger_test.go:go-logger.ExampleFileTag:102
+}
+
+// BenchmarkFileTag benchmarks the FileTag() method
+func BenchmarkFileTag(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = FileTag(1)
 	}
 }
 
@@ -122,10 +152,24 @@ func TestFileTagComponents(t *testing.T) {
 	}
 }
 
+// ExampleFileTagComponents example using FileTagComponents()
+func ExampleFileTagComponents() {
+	fileTag := FileTagComponents(1)
+	fmt.Println(fileTag[0])
+	// Output:go-logger/logger_test.go
+}
+
+// BenchmarkFileTaComponents benchmarks the FileTagComponents() method
+func BenchmarkFileTagComponents(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = FileTagComponents(1)
+	}
+}
+
 // TestPrintln test the print line method
 func TestPrintln(t *testing.T) {
 	captured := captureOutput(func() {
-		Errorln(2, "test this method")
+		Println("test this method")
 	})
 
 	if !strings.Contains(captured, "go-logger/logger_test.go:go-logger.TestPrintln") {
@@ -137,10 +181,17 @@ func TestPrintln(t *testing.T) {
 	}
 }
 
+// BenchmarkPrintln benchmarks the Println() method
+func BenchmarkPrintln(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Println("something")
+	}
+}
+
 // TestPrintf test the print fmt method
 func TestPrintf(t *testing.T) {
 	captured := captureOutput(func() {
-		Errorfmt(2, "test this method: %s", "TestPrintf")
+		Printf("test this method: %s", "TestPrintf")
 	})
 
 	if !strings.Contains(captured, "go-logger/logger_test.go:go-logger.TestPrintf") {
@@ -152,7 +203,14 @@ func TestPrintf(t *testing.T) {
 	}
 }
 
-// TestErrorln test the error line method
+// BenchmarkPrintf benchmarks the Printf() method
+func BenchmarkPrintf(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Printf("test this method: %s", "TestPrintf")
+	}
+}
+
+// TestErrorln test the Errorln() method
 func TestErrorln(t *testing.T) {
 	captured := captureOutput(func() {
 		Errorln(2, "test this method")
@@ -167,7 +225,14 @@ func TestErrorln(t *testing.T) {
 	}
 }
 
-// TestErrorfmt test the error fmt method
+// BenchmarkErrorln benchmarks the Errorln() method
+func BenchmarkErrorln(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Errorln(2, "test this method")
+	}
+}
+
+// TestErrorfmt test the Errorfmt() method
 func TestErrorfmt(t *testing.T) {
 	captured := captureOutput(func() {
 		Errorfmt(2, "test this method: %s", "Errorfmt")
@@ -182,7 +247,14 @@ func TestErrorfmt(t *testing.T) {
 	}
 }
 
-// TestData test the data method
+// BenchmarkErrorfmt benchmarks the Errorfmt() method
+func BenchmarkErrorfmt(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Errorfmt(2, "test this method: %s", "Errorfmt")
+	}
+}
+
+// TestData test the Data() method
 func TestData(t *testing.T) {
 	captured := captureOutput(func() {
 		Data(2, WARN, "test this method", MakeError("another", "value"))
@@ -216,7 +288,14 @@ func TestData(t *testing.T) {
 	}
 }
 
-// TestLogPkg_Printf test log package printf method
+// BenchmarkData benchmarks the Data() method
+func BenchmarkData(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Data(2, WARN, "test this method", MakeError("another", "value"))
+	}
+}
+
+// TestLogPkg_Printf test log package Printf() method
 func TestLogPkg_Printf(t *testing.T) {
 	implementation = &logPkg{}
 
@@ -229,7 +308,15 @@ func TestLogPkg_Printf(t *testing.T) {
 	}
 }
 
-// TestLogPkg_Println test log package print line method
+// BenchmarkLogPkg_Printf benchmarks the LogPkg_Printf() method
+func BenchmarkLogPkg_Printf(b *testing.B) {
+	implementation = &logPkg{}
+	for i := 0; i < b.N; i++ {
+		implementation.Printf("test this method: %s", "TestPrintf")
+	}
+}
+
+// TestLogPkg_Println test log package LogPkg_Prinln() method
 func TestLogPkg_Println(t *testing.T) {
 	implementation = &logPkg{}
 
@@ -242,7 +329,15 @@ func TestLogPkg_Println(t *testing.T) {
 	}
 }
 
-// TestMakeError test making an error struct
+// BenchmarkLogPkg_Println benchmarks the LogPkg_Println() method
+func BenchmarkLogPkg_Println(b *testing.B) {
+	implementation = &logPkg{}
+	for i := 0; i < b.N; i++ {
+		implementation.Println("test this method: TestPrintln")
+	}
+}
+
+// TestMakeError test making an error struct and MakeError() method
 func TestMakeError(t *testing.T) {
 	err := MakeError("myKey", "myValue")
 	if err.Key() != "myKey" {
@@ -253,5 +348,12 @@ func TestMakeError(t *testing.T) {
 	}
 	if err.Error() != `{"key":"myKey","value":"myValue"}` {
 		t.Fatalf("expected value: %s, got: %s", `{"key":"myKey","value":"myValue"}`, err.Error())
+	}
+}
+
+// BenchmarkMakeError benchmarks the MakeError() method
+func BenchmarkMakeError(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = MakeError("myKey", "myValue")
 	}
 }
