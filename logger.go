@@ -33,27 +33,24 @@ type LogLevel uint8
 // String turn log level to string
 func (l LogLevel) String() string {
 	switch l {
-	case ERROR:
-		return "error"
 	case DEBUG:
 		return "debug"
 	case INFO:
 		return "info"
 	case WARN:
 		return "warn"
-	case VERBOSE:
-		return "verbose"
+	case ERROR:
+		return "error"
 	}
 	return ""
 }
 
 // Global constants
 const (
-	ERROR LogLevel = iota
-	DEBUG
+	DEBUG LogLevel = iota
 	INFO
 	WARN
-	VERBOSE
+	ERROR
 )
 
 // logPkg is the log package interface
