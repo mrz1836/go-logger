@@ -66,7 +66,8 @@ $ go test -bench . -benchmem
 Read more about this Go project's [code standards](CODE_STANDARDS.md).
 
 ## Usage
-- View the [examples & benchmarks](logger_test.go)
+- View the [examples](example/example.go)
+- View the [tests](logger_test.go)
 
 Basic implementation:
 ```golang
