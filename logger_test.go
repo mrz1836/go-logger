@@ -257,7 +257,7 @@ func BenchmarkErrorfmt(b *testing.B) {
 // TestData test the Data() method
 func TestData(t *testing.T) {
 	captured := captureOutput(func() {
-		Data(2, WARN, "test this method", MakeError("another", "value"))
+		Data(2, WARN, "test this method", MakeParameter("another", "value"))
 	})
 
 	//2019/06/17 12:59:32 type="warn" file="go-logger/logger_test.go" method="go-logger.TestData.func1" line="188" message="test this method" another="value"
@@ -291,7 +291,7 @@ func TestData(t *testing.T) {
 // BenchmarkData benchmarks the Data() method
 func BenchmarkData(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		Data(2, WARN, "test this method", MakeError("another", "value"))
+		Data(2, WARN, "test this method", MakeParameter("another", "value"))
 	}
 }
 
@@ -337,23 +337,23 @@ func BenchmarkLogPkg_Println(b *testing.B) {
 	}
 }
 
-// TestMakeError test making an error struct and MakeError() method
-func TestMakeError(t *testing.T) {
-	err := MakeError("myKey", "myValue")
-	if err.Key() != "myKey" {
-		t.Fatalf("expected value: %s, got: %s", "myKey", err.Key())
+// TestMakeParameter test making an error struct and MakeParameter() method
+func TestMakeParameter(t *testing.T) {
+	param := MakeParameter("myKey", "myValue")
+	if param.Key() != "myKey" {
+		t.Fatalf("expected value: %s, got: %s", "myKey", param.Key())
 	}
-	if err.Value() != "myValue" {
-		t.Fatalf("expected value: %s, got: %s", "myValue", err.Value())
+	if param.Value() != "myValue" {
+		t.Fatalf("expected value: %s, got: %s", "myValue", param.Value())
 	}
-	if err.Error() != `{"key":"myKey","value":"myValue"}` {
-		t.Fatalf("expected value: %s, got: %s", `{"key":"myKey","value":"myValue"}`, err.Error())
+	if param.String() != `{"key":"myKey","value":"myValue"}` {
+		t.Fatalf("expected value: %s, got: %s", `{"key":"myKey","value":"myValue"}`, param.String())
 	}
 }
 
-// BenchmarkMakeError benchmarks the MakeError() method
-func BenchmarkMakeError(b *testing.B) {
+// BenchmarkMakeParameter benchmarks the MakeParameter() method
+func BenchmarkMakeParameter(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = MakeError("myKey", "myValue")
+		_ = MakeParameter("myKey", "myValue")
 	}
 }
