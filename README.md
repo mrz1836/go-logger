@@ -33,12 +33,15 @@ $ dep ensure -update -v
 You can view the generated [documentation here](https://godoc.org/github.com/mrz1836/go-logger).
 
 ### Features
+- Native logging package (extends log package)
+- Native support for [Log Entries](https://logentries.com/) with queueing
 - todo: @mrz
 
 ## Examples & Tests
-All unit tests and [examples](logger_test.go) run via [Travis CI](https://travis-ci.com/mrz1836/go-logger) and uses [Go version 1.12.x](https://golang.org/doc/go1.12). View the [deployment configuration file](.travis.yml).
+All unit tests and [examples](example/example.go) run via [Travis CI](https://travis-ci.com/mrz1836/go-logger) and uses [Go version 1.12.x](https://golang.org/doc/go1.12). View the [deployment configuration file](.travis.yml).
 
-- [examples & tests](logger_test.go)
+- [examples](example/example.go)
+- [tests](logger_test.go)
 
 Run all tests (including integration tests)
 ```bash
@@ -66,7 +69,15 @@ Read more about this Go project's [code standards](CODE_STANDARDS.md).
 - View the [examples & benchmarks](logger_test.go)
 
 Basic implementation:
-- todo: @mrz
+```golang
+package main
+
+import "github.com/mrz1836/go-logger"
+
+func main() {
+	logger.Data(2, logger.DEBUG, "testing the go-logger package")
+}
+```
 
 ## Maintainers
 
