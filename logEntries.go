@@ -58,7 +58,7 @@ func NewLogEntriesClient(token string) (*logEntries, error) {
 	return l, nil
 }
 
-// Connect connect to log entries
+// Connect connect to Log Entries
 func (l *logEntries) Connect() error {
 	if l.conn != nil {
 		_ = l.conn.Close() // close the connection, don't care about the error

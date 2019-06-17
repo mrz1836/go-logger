@@ -172,8 +172,6 @@ func Data(stackLevel int, logLevel LogLevel, message string, args ...KeyValue) {
 	implementation.Println(buf.String())
 }
 
-// Below is just the internal implementation of a Logger to wrap the log package
-
 // Println print line
 func (l *logPkg) Println(v ...interface{}) {
 	log.Println(v...)
