@@ -1,5 +1,5 @@
 # go-logger
-**go-logger** is an easy to use, super fast and extendable logging package for Go
+**go-logger** is an easy to use, extendable and super fast logging package for Go
 
 | | | | | | | |
 |-|-|-|-|-|-|-|
