@@ -316,7 +316,7 @@ func BenchmarkLogPkg_Printf(b *testing.B) {
 	}
 }
 
-// TestLogPkg_Println test log package LogPkg_Prinln() method
+// TestLogPkg_Println test log package LogPkg_Println() method
 func TestLogPkg_Println(t *testing.T) {
 	implementation = &logPkg{}
 
