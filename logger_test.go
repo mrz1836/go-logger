@@ -131,8 +131,8 @@ func TestFileTagComponents(t *testing.T) {
 	}
 
 	// Test the part
-	if fileTagComps[2] != "865" {
-		t.Fatalf("expected component: %s, got: %s", "865", fileTagComps[2])
+	if fileTagComps[2] != "909" {
+		t.Fatalf("expected component: %s, got: %s", "909", fileTagComps[2])
 	}
 
 	// Test the level: 1
