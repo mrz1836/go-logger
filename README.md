@@ -1,9 +1,12 @@
 # go-logger
 **go-logger** is an easy to use, extendable and super fast logging package for Go
 
-| | | | | | | |
-|-|-|-|-|-|-|-|
-| ![License](https://img.shields.io/github/license/mrz1836/go-logger.svg?style=flat) | [![Report](https://goreportcard.com/badge/github.com/mrz1836/go-logger?style=flat)](https://goreportcard.com/report/github.com/mrz1836/go-logger)  | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/de9d8cd1e21445e9823b005e4f7dcf20)](https://www.codacy.com/app/mrz1818/go-logger?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mrz1836/go-logger&amp;utm_campaign=Badge_Grade) |  [![Build Status](https://travis-ci.org/mrz1836/go-logger.svg?branch=master)](https://travis-ci.org/mrz1836/go-logger)   |  [![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg?style=flat)](https://github.com/RichardLitt/standard-readme) | [![Release](https://img.shields.io/github/release-pre/mrz1836/go-logger.svg?style=flat)](https://github.com/mrz1836/go-logger/releases) | [![GoDoc](https://godoc.org/github.com/mrz1836/go-logger?status.svg&style=flat)](https://godoc.org/github.com/mrz1836/go-logger) |
+[![Build Status](https://travis-ci.org/mrz1836/go-logger.svg?branch=master)](https://travis-ci.org/mrz1836/go-logger)
+[![Report](https://goreportcard.com/badge/github.com/mrz1836/go-logger?style=flat)](https://goreportcard.com/report/github.com/mrz1836/go-logger)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/de9d8cd1e21445e9823b005e4f7dcf20)](https://www.codacy.com/app/mrz1818/go-logger?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mrz1836/go-logger&amp;utm_campaign=Badge_Grade)
+[![Release](https://img.shields.io/github/release-pre/mrz1836/go-logger.svg?style=flat)](https://github.com/mrz1836/go-logger/releases)
+[![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg?style=flat)](https://github.com/RichardLitt/standard-readme)
+[![GoDoc](https://godoc.org/github.com/mrz1836/go-logger?status.svg&style=flat)](https://godoc.org/github.com/mrz1836/go-logger)
 
 ## Table of Contents
 - [Installation](#installation)
