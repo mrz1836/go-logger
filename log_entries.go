@@ -70,7 +70,8 @@ func (l *logEntries) Connect() error {
 		return err
 	}
 
-	conn, err := net.DialTCP("tcp", nil, addr)
+	var conn *net.TCPConn
+	conn, err = net.DialTCP("tcp", nil, addr)
 	if err != nil {
 		l.retryDelay *= 2
 		if l.retryDelay > MaxRetryDelay {
