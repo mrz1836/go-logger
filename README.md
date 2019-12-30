@@ -1,6 +1,7 @@
 # go-logger
 **go-logger** is an easy to use, extendable and super fast logging package for Go
 
+[![Go](https://img.shields.io/github/go-mod/go-version/mrz1836/go-logger)](https://golang.org/)
 [![Build Status](https://travis-ci.org/mrz1836/go-logger.svg?branch=master)](https://travis-ci.org/mrz1836/go-logger)
 [![Report](https://goreportcard.com/badge/github.com/mrz1836/go-logger?style=flat)](https://goreportcard.com/report/github.com/mrz1836/go-logger)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/de9d8cd1e21445e9823b005e4f7dcf20)](https://www.codacy.com/app/mrz1818/go-logger?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mrz1836/go-logger&amp;utm_campaign=Badge_Grade)
