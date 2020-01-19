@@ -122,10 +122,24 @@ func Println(v ...interface{}) {
 	implementation.Println(values...)
 }
 
+// NoFilePrintln calls Output to print to the connected logger.
+// Arguments are handled in the manner of fmt.Println.
+func NoFilePrintln(v ...interface{}) {
+	var values []interface{}
+	values = append(values, v...)
+	implementation.Println(values...)
+}
+
 // Printf calls Output to print to the connected logger.
 // Arguments are handled in the manner of fmt.Printf.
 func Printf(format string, v ...interface{}) {
 	implementation.Printf(FileTag(2)+" "+format, v...)
+}
+
+// NoFilePrintf calls Output to print to the connected logger.
+// Arguments are handled in the manner of fmt.Printf.
+func NoFilePrintf(format string, v ...interface{}) {
+	implementation.Printf(format, v...)
 }
 
 // Fatalln is equivalent to Println() followed by a call to os.Exit(1)
@@ -182,6 +196,27 @@ func Data(stackLevel int, logLevel LogLevel, message string, args ...KeyValue) {
 	}
 
 	implementation.Println(buf.String())
+}
+
+// NoFileData will format the log message to a standardized log entries compatible format.
+// This will print using the implementation's Println function
+func NoFileData(logLevel LogLevel, message string, args ...KeyValue) {
+	var buf bytes.Buffer
+	buf.WriteString(`type="`)
+	buf.WriteString(strings.ToLower(logLevel.String()))
+	buf.WriteString(`" message="`)
+	buf.WriteString(message)
+	buf.WriteString(`"`)
+
+	for _, arg := range args {
+		buf.WriteByte(' ')
+		buf.WriteString(arg.Key())
+		buf.WriteString(`="`)
+		buf.WriteString(fmt.Sprint(arg.Value()))
+		buf.WriteByte('"')
+	}
+
+	NoFilePrintln(buf.String())
 }
 
 // Println print line

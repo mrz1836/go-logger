@@ -181,6 +181,17 @@ func TestPrintln(t *testing.T) {
 	}
 }
 
+// TestNoFilePrintln test the print line method
+func TestNoFilePrintln(t *testing.T) {
+	captured := captureOutput(func() {
+		NoFilePrintln("test this method")
+	})
+
+	if !strings.Contains(captured, "test this method") {
+		t.Fatalf("expected string: %s got: %s", "test this method", captured)
+	}
+}
+
 // BenchmarkPrintln benchmarks the Println() method
 func BenchmarkPrintln(b *testing.B) {
 	for i := 0; i < b.N; i++ {
@@ -197,6 +208,17 @@ func TestPrintf(t *testing.T) {
 	if !strings.Contains(captured, "go-logger/logger_test.go:go-logger.TestPrintf") {
 		t.Fatalf("expected string: %s got: %s", "go-logger/logger_test.go:go-logger.TestPrintf", captured)
 	}
+
+	if !strings.Contains(captured, "test this method: TestPrintf") {
+		t.Fatalf("expected string: %s got: %s", "test this method: TestPrintf", captured)
+	}
+}
+
+// TestNoFilePrintf test the print fmt method
+func TestNoFilePrintf(t *testing.T) {
+	captured := captureOutput(func() {
+		NoFilePrintf("test this method: %s", "TestPrintf")
+	})
 
 	if !strings.Contains(captured, "test this method: TestPrintf") {
 		t.Fatalf("expected string: %s got: %s", "test this method: TestPrintf", captured)
@@ -275,6 +297,28 @@ func TestData(t *testing.T) {
 	// Check for method
 	if !strings.Contains(captured, `method="go-logger.TestData.func1"`) {
 		t.Fatalf("expected string: %s, got: %s", `method="go-logger.TestData.func1"`, captured)
+	}
+
+	// Check for message
+	if !strings.Contains(captured, `message="test this method"`) {
+		t.Fatalf("expected string: %s, got: %s", `message="test this method"`, captured)
+	}
+
+	// Check for additional values
+	if !strings.Contains(captured, `another="value"`) {
+		t.Fatalf("expected string: %s, got: %s", `another="value"`, captured)
+	}
+}
+
+// TestNoFileData test the NoFileData() method
+func TestNoFileData(t *testing.T) {
+	captured := captureOutput(func() {
+		NoFileData(WARN, "test this method", MakeParameter("another", "value"))
+	})
+
+	// Check for warn
+	if !strings.Contains(captured, `type="warn"`) {
+		t.Fatalf("expected string: %s, got: %s", `type="warn"`, captured)
 	}
 
 	// Check for message
