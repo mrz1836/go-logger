@@ -38,16 +38,20 @@ func (m *msgQueue) PushFront(msg *bytes.Buffer) {
 // logEntries configuration
 type logEntries struct {
 	conn       *net.TCPConn
+	endpoint   string
 	messages   msgQueue
+	port       string
 	retryDelay time.Duration
 	token      string
 }
 
 // NewLogEntriesClient new client
-func NewLogEntriesClient(token string) (*logEntries, error) {
+func NewLogEntriesClient(token, endpoint, port string) (*logEntries, error) {
 	l := &logEntries{
-		token:      token,
+		endpoint:   endpoint,
+		port:       port,
 		retryDelay: RetryDelay,
+		token:      token,
 	}
 	l.messages.messagesToSend = make(chan *bytes.Buffer, 1000)
 
@@ -65,7 +69,7 @@ func (l *logEntries) Connect() error {
 	}
 	l.conn = nil
 
-	addr, err := net.ResolveTCPAddr("tcp", LogEntriesURL+":"+LogEntriesPort)
+	addr, err := net.ResolveTCPAddr("tcp", l.endpoint+":"+l.port)
 	if err != nil {
 		return err
 	}

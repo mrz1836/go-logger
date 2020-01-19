@@ -62,14 +62,26 @@ var implementation Logger
 // init function (different services)
 func init() {
 
-	// Detect env var
+	// Detect token
 	logEntriesToken := os.Getenv("LOG_ENTRIES_TOKEN")
+
+	// Detect custom endpoint
+	logEntriesEndpoint := os.Getenv("LOG_ENTRIES_ENDPOINT")
+	if len(logEntriesEndpoint) == 0 {
+		logEntriesEndpoint = LogEntriesURL
+	}
+
+	// Detect custom port
+	logEntriesPort := os.Getenv("LOG_ENTRIES_PORT")
+	if len(logEntriesPort) == 0 {
+		logEntriesPort = LogEntriesPort
+	}
 
 	// Do we have a Log Entries token?
 	if len(logEntriesToken) > 0 {
 		log.Println("go-logger: Log Entries token detected")
 		var err error
-		implementation, err = NewLogEntriesClient(logEntriesToken)
+		implementation, err = NewLogEntriesClient(logEntriesToken, logEntriesEndpoint, logEntriesPort)
 		if err != nil {
 			log.Printf("go-logger: failed to eager connect to Log Entries: %s", err.Error())
 		} else {

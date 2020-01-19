@@ -6,6 +6,7 @@ import "time"
 const (
 	LogEntriesPort = "10000"
 	LogEntriesURL  = "data.logentries.com"
-	MaxRetryDelay  = 2 * time.Minute
-	RetryDelay     = 100 * time.Millisecond
+	//LogEntriesURL = "us.data.logs.insight.rapid7.com"
+	MaxRetryDelay = 2 * time.Minute
+	RetryDelay    = 100 * time.Millisecond
 )

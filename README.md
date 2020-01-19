@@ -32,6 +32,12 @@ For use with [Log Entries](https://logentries.com/), change the environment vari
 export LOG_ENTRIES_TOKEN=your-token-here
 ```
 
+_(Optional)_ Set custom endpoint or port parameters
+```bash
+export LOG_ENTRIES_ENDPOINT=us.data.logs.insight.rapid7.com
+export LOG_ENTRIES_PORT=514
+```
+
 ## Documentation
 You can view the generated [documentation here](https://godoc.org/github.com/mrz1836/go-logger).
 
@@ -39,6 +45,7 @@ You can view the generated [documentation here](https://godoc.org/github.com/mrz
 - Native logging package (extends log package)
 - Native support for [Log Entries](https://logentries.com/) with queueing
 - Test coverage on all custom methods
+- Supports different Rapid7 endpoints & ports
 
 ## Examples & Tests
 All unit tests and [examples](example/example.go) run via [Travis CI](https://travis-ci.org/mrz1836/go-logger) and uses [Go version 1.13.x](https://golang.org/doc/go1.13). View the [deployment configuration file](.travis.yml).
@@ -86,7 +93,9 @@ func main() {
 
 ## Maintainers
 
-[@MrZ](https://github.com/mrz1836) | [@kayleg](https://github.com/kayleg)
+| [<img src="https://github.com/mrz1836.png" height="50" alt="MrZ" />](https://github.com/mrz1836) | [<img src="https://github.com/kayleg.png" height="50" alt="kayleg" />](https://github.com/kayleg) |
+|:---:|:---:|
+| [MrZ](https://github.com/mrz1836) | [kayleg](https://github.com/kayleg) |
 
 ## Contributing
 
