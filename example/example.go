@@ -23,6 +23,21 @@ func main() {
 	// Use traditional Errorfmt
 	logger.Errorfmt(1, "print error line via %s", "Errorfmt")
 
+	/*
+		// Create another logger instance
+		client, err := logger.NewLogEntriesClient("token-1234567", "us.data.logs.insight.rapid7.com", logger.LogEntriesPort)
+		if err != nil {
+			logger.Fatalf("error creating client %s", err.Error())
+			return
+		}
+
+		// Start processing queue
+		go client.ProcessQueue()
+
+		// Fire a log using the new client
+		client.Println("message for new log client")
+	*/
+
 	// Last, use traditional Fatalf
 	logger.Fatalf("fatal print line via %s - goodbye!", "Fatalf")
 }
