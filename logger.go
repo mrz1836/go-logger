@@ -86,7 +86,7 @@ func init() {
 			log.Printf("go-logger: failed to eager connect to Log Entries: %s", err.Error())
 		} else {
 			log.Println("go-logger: Log Entries connection started")
-			go implementation.(*logEntries).ProcessQueue()
+			go implementation.(*LogClient).ProcessQueue()
 		}
 	} else { // Basic implementation for local logging
 		log.Println("go-logger: internal logging")

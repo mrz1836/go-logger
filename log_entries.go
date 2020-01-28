@@ -9,17 +9,17 @@ import (
 	"time"
 )
 
-// msgQueue message queue
+// msgQueue is message queue channel
 type msgQueue struct {
 	messagesToSend chan *bytes.Buffer
 }
 
-// Enqueue enqueue the message
+// Enqueue will enqueue the message
 func (m *msgQueue) Enqueue(msg *bytes.Buffer) {
 	m.messagesToSend <- msg
 }
 
-// PushFront push to front
+// PushFront push the message to front
 func (m *msgQueue) PushFront(msg *bytes.Buffer) {
 	messages := []*bytes.Buffer{msg}
 	for {
@@ -35,8 +35,8 @@ func (m *msgQueue) PushFront(msg *bytes.Buffer) {
 	}
 }
 
-// logEntries configuration
-type logEntries struct {
+// LogClient configuration
+type LogClient struct {
 	conn       *net.TCPConn
 	endpoint   string
 	messages   msgQueue
@@ -46,8 +46,8 @@ type logEntries struct {
 }
 
 // NewLogEntriesClient new client
-func NewLogEntriesClient(token, endpoint, port string) (*logEntries, error) {
-	l := &logEntries{
+func NewLogEntriesClient(token, endpoint, port string) (*LogClient, error) {
+	l := &LogClient{
 		endpoint:   endpoint,
 		port:       port,
 		retryDelay: RetryDelay,
@@ -62,8 +62,8 @@ func NewLogEntriesClient(token, endpoint, port string) (*logEntries, error) {
 	return l, nil
 }
 
-// Connect connect to Log Entries
-func (l *logEntries) Connect() error {
+// Connect will connect to Log Entries
+func (l *LogClient) Connect() error {
 	if l.conn != nil {
 		_ = l.conn.Close() // close the connection, don't care about the error
 	}
@@ -100,7 +100,7 @@ func (l *logEntries) Connect() error {
 }
 
 // ProcessQueue process the queue
-func (l *logEntries) ProcessQueue() {
+func (l *LogClient) ProcessQueue() {
 	for msg := range l.messages.messagesToSend {
 		if l.conn == nil {
 			l.messages.PushFront(msg)
@@ -122,8 +122,8 @@ func (l *logEntries) ProcessQueue() {
 	}
 }
 
-// write writing the data
-func (l *logEntries) write(data string) {
+// write will write the data to the que
+func (l *LogClient) write(data string) {
 	var buff bytes.Buffer
 	buff.WriteString(l.token)
 	buff.WriteByte(' ')
@@ -131,18 +131,18 @@ func (l *logEntries) write(data string) {
 	l.messages.Enqueue(&buff)
 }
 
-// Println over writes built-in method
-func (l *logEntries) Println(v ...interface{}) {
+// Println overloads built-in method
+func (l *LogClient) Println(v ...interface{}) {
 	l.write(fmt.Sprintln(v...))
 }
 
-// Printf over writes built-in method
-func (l *logEntries) Printf(format string, v ...interface{}) {
+// Printf overloads built-in method
+func (l *LogClient) Printf(format string, v ...interface{}) {
 	l.write(fmt.Sprintf(format, v...))
 }
 
-// Fatalln over writes built-in method
-func (l *logEntries) Fatalln(v ...interface{}) {
+// Fatalln overloads built-in method
+func (l *LogClient) Fatalln(v ...interface{}) {
 	var buff bytes.Buffer
 	buff.WriteString(l.token)
 	buff.WriteByte(' ')
@@ -151,8 +151,8 @@ func (l *logEntries) Fatalln(v ...interface{}) {
 	os.Exit(1)
 }
 
-// Fatalf over writes built-in method
-func (l *logEntries) Fatalf(format string, v ...interface{}) {
+// Fatalf overloads built-in method
+func (l *LogClient) Fatalf(format string, v ...interface{}) {
 	var buff bytes.Buffer
 	buff.WriteString(l.token)
 	buff.WriteByte(' ')
@@ -162,7 +162,7 @@ func (l *logEntries) Fatalf(format string, v ...interface{}) {
 }
 
 // sendOne sends one log
-func (l *logEntries) sendOne(msg *bytes.Buffer) (err error) {
+func (l *LogClient) sendOne(msg *bytes.Buffer) (err error) {
 	if l.conn == nil {
 		if err = l.Connect(); err != nil {
 			log.Println(msg.String())
