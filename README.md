@@ -48,7 +48,7 @@ You can view the generated [documentation here](https://godoc.org/github.com/mrz
 - Supports different Rapid7 endpoints & ports
 
 ## Examples & Tests
-All unit tests and [examples](example/example.go) run via [Travis CI](https://travis-ci.org/mrz1836/go-logger) and uses [Go version 1.13.x](https://golang.org/doc/go1.13). View the [deployment configuration file](.travis.yml).
+All unit tests and [examples](example/example.go) run via [Travis CI](https://travis-ci.org/mrz1836/go-logger) and uses [Go version 1.14.x](https://golang.org/doc/go1.14). View the [deployment configuration file](.travis.yml).
 
 - [examples](example/example.go)
 - [tests](logger_test.go)
