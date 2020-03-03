@@ -85,13 +85,13 @@ func (l *LogClient) Connect() error {
 	}
 
 	_ = conn.SetNoDelay(true)
-	//if err != nil {
+	// if err != nil {
 	//	return err
-	//}
+	// }
 	_ = conn.SetKeepAlive(true)
-	//if err != nil {
+	// if err != nil {
 	//	return err
-	//}
+	// }
 
 	l.conn = conn
 	l.retryDelay = RetryDelay

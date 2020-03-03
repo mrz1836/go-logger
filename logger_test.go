@@ -131,8 +131,8 @@ func TestFileTagComponents(t *testing.T) {
 	}
 
 	// Test the part
-	if fileTagComps[2] != "909" {
-		t.Fatalf("expected component: %s, got: %s", "909", fileTagComps[2])
+	if fileTagComps[2] != "992" {
+		t.Fatalf("expected component: %s, got: %s", "992", fileTagComps[2])
 	}
 
 	// Test the level: 1
@@ -282,7 +282,7 @@ func TestData(t *testing.T) {
 		Data(2, WARN, "test this method", MakeParameter("another", "value"))
 	})
 
-	//2019/06/17 12:59:32 type="warn" file="go-logger/logger_test.go" method="go-logger.TestData.func1" line="188" message="test this method" another="value"
+	// 2019/06/17 12:59:32 type="warn" file="go-logger/logger_test.go" method="go-logger.TestData.func1" line="188" message="test this method" another="value"
 
 	// Check for warn
 	if !strings.Contains(captured, `type="warn"`) {
