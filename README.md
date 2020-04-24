@@ -2,7 +2,7 @@
 **go-logger** is an easy to use, extendable and super fast logging package for Go
 
 [![Go](https://img.shields.io/github/go-mod/go-version/mrz1836/go-logger)](https://golang.org/)
-[![Build Status](https://travis-ci.org/mrz1836/go-logger.svg?branch=master)](https://travis-ci.org/mrz1836/go-logger)
+[![Build Status](https://travis-ci.com/mrz1836/go-logger.svg?branch=master)](https://travis-ci.com/mrz1836/go-logger)
 [![Report](https://goreportcard.com/badge/github.com/mrz1836/go-logger?style=flat)](https://goreportcard.com/report/github.com/mrz1836/go-logger)
 [![Release](https://img.shields.io/github/release-pre/mrz1836/go-logger.svg?style=flat)](https://github.com/mrz1836/go-logger/releases)
 [![GoDoc](https://godoc.org/github.com/mrz1836/go-logger?status.svg&style=flat)](https://pkg.go.dev/github.com/mrz1836/go-logger)

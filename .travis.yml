@@ -9,7 +9,7 @@ go:
  - 1.14.x
 
 # Environment variables
- env:
+env:
  - GO111MODULE=on
 
 # Only clone the most recent commit
