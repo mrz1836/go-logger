@@ -36,14 +36,14 @@ export LOG_ENTRIES_ENDPOINT=us.data.logs.insight.rapid7.com
 export LOG_ENTRIES_PORT=514
 ``` 
 
+## Documentation
+You can view the generated [documentation here](https://pkg.go.dev/github.com/mrz1836/go-logger).
+
 ### Features
 - Native logging package (extends log package)
 - Native support for [Log Entries (Rapid7)](https://www.rapid7.com/products/insightops/) with queueing
 - Test coverage on all custom methods
 - Supports different Rapid7 endpoints & ports
-
-## Documentation
-You can view the generated [documentation here](https://pkg.go.dev/github.com/mrz1836/go-logger).
 
 <details>
 <summary><strong><code>Library Deployment</code></strong></summary>
