@@ -130,9 +130,9 @@ func TestFileTagComponents(t *testing.T) {
 		t.Fatalf("expected component: %s, got: %s", "testing.tRunner", fileTagComps[1])
 	}
 
-	// Test the part
-	if fileTagComps[2] != "992" {
-		t.Fatalf("expected component: %s, got: %s", "992", fileTagComps[2])
+	// Test the part // todo: this number changes frequently, maybe this is not the best test?
+	if fileTagComps[2] != "991" {
+		t.Fatalf("expected component: %s, got: %s", "991", fileTagComps[2])
 	}
 
 	// Test the level: 1
