@@ -4,6 +4,7 @@
 [![Go](https://img.shields.io/github/go-mod/go-version/mrz1836/go-logger)](https://golang.org/)
 [![Build Status](https://travis-ci.com/mrz1836/go-logger.svg?branch=master)](https://travis-ci.com/mrz1836/go-logger)
 [![Report](https://goreportcard.com/badge/github.com/mrz1836/go-logger?style=flat)](https://goreportcard.com/report/github.com/mrz1836/go-logger)
+[![codecov](https://codecov.io/gh/mrz1836/go-logger/branch/master/graph/badge.svg)](https://codecov.io/gh/mrz1836/go-logger)
 [![Release](https://img.shields.io/github/release-pre/mrz1836/go-logger.svg?style=flat)](https://github.com/mrz1836/go-logger/releases)
 [![GoDoc](https://godoc.org/github.com/mrz1836/go-logger?status.svg&style=flat)](https://pkg.go.dev/github.com/mrz1836/go-logger)
 
@@ -90,9 +91,6 @@ vet                            Run the Go vet application
 ## Examples & Tests
 All unit tests and [examples](examples/examples.go) run via [Travis CI](https://travis-ci.org/mrz1836/go-logger) and uses [Go version 1.14.x](https://golang.org/doc/go1.14). View the [deployment configuration file](.travis.yml).
 
-- [examples](examples/examples.go)
-- [tests](logger_test.go)
-
 Run all tests (including integration tests)
 ```bash
 $ make test
@@ -117,7 +115,7 @@ Read more about this Go project's [code standards](CODE_STANDARDS.md).
 - View the [tests](logger_test.go)
 
 Basic implementation:
-```golang
+```go
 package main
 
 import "github.com/mrz1836/go-logger"
