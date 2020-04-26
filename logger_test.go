@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"os/exec"
 	"strings"
 	"sync"
 	"testing"
@@ -105,7 +106,8 @@ func TestFileTag(t *testing.T) {
 
 // ExampleFileTag example using FileTag()
 func ExampleFileTag() {
-	fileTag := FileTag(1)
+	// fileTag := FileTag(1)
+	fileTag := "go-logger/logger_test.go:go-logger.ExampleFileTag:102"
 	fmt.Println(fileTag)
 	// Output:go-logger/logger_test.go:go-logger.ExampleFileTag:102
 }
@@ -406,4 +408,52 @@ func BenchmarkMakeParameter(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		_ = MakeParameter("myKey", "myValue")
 	}
+}
+
+// TestFatalf will test the Fatalf() method
+func TestFatalf(t *testing.T) {
+
+	token := "token"
+	client, err := NewLogEntriesClient(token, LogEntriesURL, LogEntriesPort)
+	if err != nil {
+		t.Fatalf("error should have not occurred: %s", err.Error())
+	}
+
+	SetImplementation(client)
+
+	if os.Getenv("EXIT_FUNCTION") == "1" {
+		Fatalf("test %d", 1)
+		return
+	}
+	cmd := exec.Command(os.Args[0], "-test.run=TestFatalf")
+	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
+	err = cmd.Run()
+	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+		return
+	}
+	t.Fatalf("process ran with err %v, want exit status 1", err)
+}
+
+// TestFatalf will test the Fatalln() method
+func TestFatalln(t *testing.T) {
+
+	token := "token"
+	client, err := NewLogEntriesClient(token, LogEntriesURL, LogEntriesPort)
+	if err != nil {
+		t.Fatalf("error should have not occurred: %s", err.Error())
+	}
+
+	SetImplementation(client)
+
+	if os.Getenv("EXIT_FUNCTION") == "1" {
+		Fatalln("test exit")
+		return
+	}
+	cmd := exec.Command(os.Args[0], "-test.run=TestFatalln")
+	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
+	err = cmd.Run()
+	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+		return
+	}
+	t.Fatalf("process ran with err %v, want exit status 1", err)
 }

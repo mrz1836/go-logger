@@ -3,6 +3,8 @@ package logger
 import (
 	"bytes"
 	"fmt"
+	"os"
+	"os/exec"
 	"testing"
 	"time"
 )
@@ -35,6 +37,12 @@ func TestNewLogEntriesClient(t *testing.T) {
 	_, err = NewLogEntriesClient("token", "http://badurl.com", LogEntriesPort)
 	if err == nil {
 		t.Fatalf("error should have occurred")
+	}
+
+	// Double open
+	client, err = NewLogEntriesClient(token, LogEntriesURL, LogEntriesPort)
+	if err != nil {
+		t.Fatalf("error should have not occurred: %s", err.Error())
 	}
 }
 
@@ -168,4 +176,48 @@ func TestLogClient_Printf(t *testing.T) {
 	if finalString != token+" test 1" {
 		t.Fatalf("[%s] expect [%s] result", token+" test 1", finalString)
 	}
+}
+
+// TestLogClient_Fatalf will test the Fatalf() method
+func TestLogClient_Fatalf(t *testing.T) {
+
+	token := "token"
+	client, err := NewLogEntriesClient(token, LogEntriesURL, LogEntriesPort)
+	if err != nil {
+		t.Fatalf("error should have not occurred: %s", err.Error())
+	}
+
+	if os.Getenv("EXIT_FUNCTION") == "1" {
+		client.Fatalf("test %d", 1)
+		return
+	}
+	cmd := exec.Command(os.Args[0], "-test.run=TestLogClient_Fatalf")
+	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
+	err = cmd.Run()
+	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+		return
+	}
+	t.Fatalf("process ran with err %v, want exit status 1", err)
+}
+
+// TestLogClient_Fatalln will test the Fatalln() method
+func TestLogClient_Fatalln(t *testing.T) {
+
+	token := "token"
+	client, err := NewLogEntriesClient(token, LogEntriesURL, LogEntriesPort)
+	if err != nil {
+		t.Fatalf("error should have not occurred: %s", err.Error())
+	}
+
+	if os.Getenv("EXIT_FUNCTION") == "1" {
+		client.Fatalln("test exit")
+		return
+	}
+	cmd := exec.Command(os.Args[0], "-test.run=TestLogClient_Fatalln")
+	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
+	err = cmd.Run()
+	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+		return
+	}
+	t.Fatalf("process ran with err %v, want exit status 1", err)
 }
