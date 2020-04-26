@@ -75,8 +75,7 @@ func (l *LogClient) Connect() error {
 	}
 
 	var conn *net.TCPConn
-	conn, err = net.DialTCP("tcp", nil, addr)
-	if err != nil {
+	if conn, err = net.DialTCP("tcp", nil, addr); err != nil {
 		l.retryDelay *= 2
 		if l.retryDelay > MaxRetryDelay {
 			l.retryDelay = MaxRetryDelay
@@ -106,16 +105,16 @@ func (l *LogClient) ProcessQueue() {
 			l.messages.PushFront(msg)
 			time.Sleep(l.retryDelay)
 			if err := l.Connect(); err != nil {
-				log.Println("failed reconnecting to logEntries", err)
+				log.Println("failed reconnecting to log provider", err)
 				continue
 			}
 		}
 		if _, err := l.conn.Write(msg.Bytes()); err != nil {
 			l.messages.PushFront(msg)
-			log.Println("failed to write to logEntries", err)
+			log.Println("failed to write to log provider", err)
 			time.Sleep(l.retryDelay)
-			if err := l.Connect(); err != nil {
-				log.Println("failed reconnecting to logEntries after failing to write", err)
+			if err = l.Connect(); err != nil {
+				log.Println("failed reconnecting to log provider after failing to write", err)
 				continue
 			}
 		}
@@ -166,13 +165,13 @@ func (l *LogClient) sendOne(msg *bytes.Buffer) (err error) {
 	if l.conn == nil {
 		if err = l.Connect(); err != nil {
 			log.Println(msg.String())
-			log.Println("failed reconnecting to logEntries", err)
+			log.Println("failed reconnecting to log provider", err)
 			return
 		}
 	}
 	if _, err = l.conn.Write(msg.Bytes()); err != nil {
 		log.Println(msg.String())
-		log.Println("failed to write to logEntries", err)
+		log.Println("failed to write to log provider", err)
 		return
 	}
 	return
