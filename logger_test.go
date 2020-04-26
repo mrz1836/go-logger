@@ -70,6 +70,12 @@ func TestLogLevel_String(t *testing.T) {
 	if level.String() != "error" {
 		t.Fatalf("expected string to be: %s, got: %s", "error", level.String())
 	}
+
+	// Test for empty
+	level = 4
+	if level.String() != "" {
+		t.Fatalf("expected string to be: %s, got: %s", "", level.String())
+	}
 }
 
 // ExampleLogLevel_String example using level.String()
