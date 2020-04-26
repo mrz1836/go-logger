@@ -42,7 +42,7 @@ lint: ## Run the Go lint application
 
 release: ## Full production release (creates release in Github)
 	goreleaser --rm-dist
-	 make godocs
+	make godocs
 
 release-test: ## Full production test release (everything except deploy)
 	goreleaser --skip-publish --rm-dist
