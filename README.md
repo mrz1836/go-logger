@@ -1,5 +1,5 @@
 # go-logger
-**go-logger** is an easy to use, extendable and super fast logging package for Go
+> Easy to use, extendable and super fast logging package for Go
 
 [![Go](https://img.shields.io/github/go-mod/go-version/mrz1836/go-logger)](https://golang.org/)
 [![Build Status](https://travis-ci.com/mrz1836/go-logger.svg?branch=master)](https://travis-ci.com/mrz1836/go-logger)
@@ -22,17 +22,17 @@
 ## Installation
 
 **go-logger** requires a [supported release of Go](https://golang.org/doc/devel/release.html#policy).
-```bash
-$ go get -u github.com/mrz1836/go-logger
+```shell script
+go get -u github.com/mrz1836/go-logger
 ```
 
 For use with [Log Entries (Rapid7)](https://www.rapid7.com/products/insightops/), change the environment variables:
-```bash
+```shell script
 export LOG_ENTRIES_TOKEN=your-token-here
 ```
 
 _(Optional)_ Set custom endpoint or port parameters
-```bash
+```shell script
 export LOG_ENTRIES_ENDPOINT=us.data.logs.insight.rapid7.com
 export LOG_ENTRIES_PORT=514
 ``` 
@@ -60,8 +60,8 @@ Use `make release-snap` to create a snapshot version of the release, and finally
 <summary><strong><code>Makefile Commands</code></strong></summary>
 
 View all `makefile` commands
-```bash
-$ make help
+```shell script
+make help
 ```
 
 List of all current commands:
@@ -92,19 +92,19 @@ vet                            Run the Go vet application
 All unit tests and [examples](examples/examples.go) run via [Travis CI](https://travis-ci.org/mrz1836/go-logger) and uses [Go version 1.14.x](https://golang.org/doc/go1.14). View the [deployment configuration file](.travis.yml).
 
 Run all tests (including integration tests)
-```bash
-$ make test
+```shell script
+make test
 ```
 
 Run tests (excluding integration tests)
-```bash
-$ make test-short
+```shell script
+make test-short
 ```
 
 ## Benchmarks
 Run the Go [benchmarks](logger_test.go):
-```bash
-$ make bench
+```shell script
+make bench
 ```
 
 ## Code Standards
