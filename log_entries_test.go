@@ -2,17 +2,17 @@ package logger
 
 import (
 	"bytes"
-	"fmt"
 	"os"
 	"os/exec"
 	"testing"
 	"time"
 )
 
+const testToken = "token"
+
 // TestNewLogEntriesClient will test the NewLogEntriesClient() method
 func TestNewLogEntriesClient(t *testing.T) {
-	token := "token"
-	client, err := NewLogEntriesClient(token, LogEntriesURL, LogEntriesPort)
+	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
 	if err != nil {
 		t.Fatalf("error should have not occurred: %s", err.Error())
 	}
@@ -25,8 +25,8 @@ func TestNewLogEntriesClient(t *testing.T) {
 		t.Fatalf("[%s] expect [%s] result", LogEntriesURL, client.endpoint)
 	}
 
-	if client.token != token {
-		t.Fatalf("[%s] expect [%s] result", token, client.token)
+	if client.token != testToken {
+		t.Fatalf("[%s] expect [%s] result", testToken, client.token)
 	}
 
 	_, err = NewLogEntriesClient("token", LogEntriesURL, "101010")
@@ -40,7 +40,7 @@ func TestNewLogEntriesClient(t *testing.T) {
 	}
 
 	// Double open
-	client, err = NewLogEntriesClient(token, LogEntriesURL, LogEntriesPort)
+	_, err = NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
 	if err != nil {
 		t.Fatalf("error should have not occurred: %s", err.Error())
 	}
@@ -49,14 +49,13 @@ func TestNewLogEntriesClient(t *testing.T) {
 // TestMsgQueue_Enqueue will test the Enqueue() method
 func TestMsgQueue_Enqueue(t *testing.T) {
 
-	token := "token"
-	client, err := NewLogEntriesClient(token, LogEntriesURL, LogEntriesPort)
+	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
 	if err != nil {
 		t.Fatalf("error should have not occurred: %s", err.Error())
 	}
 
 	var buff bytes.Buffer
-	buff.WriteString(token)
+	buff.WriteString(testToken)
 	buff.WriteByte(' ')
 	buff.WriteString("test")
 	client.messages.Enqueue(&buff)
@@ -66,8 +65,8 @@ func TestMsgQueue_Enqueue(t *testing.T) {
 	}
 
 	for x := range client.messages.messagesToSend {
-		if fmt.Sprintf("%s", x) != token+" test" {
-			t.Fatalf("[%s] expect [%s] result", token+" test", fmt.Sprintf("%s", x))
+		if x.String() != testToken+" test" {
+			t.Fatalf("[%s] expect [%s] result", testToken+" test", x.String())
 		}
 		close(client.messages.messagesToSend)
 	}
@@ -76,20 +75,19 @@ func TestMsgQueue_Enqueue(t *testing.T) {
 // TestMsgQueue_PushFront will test the PushFront() method
 func TestMsgQueue_PushFront(t *testing.T) {
 
-	token := "token"
-	client, err := NewLogEntriesClient(token, LogEntriesURL, LogEntriesPort)
+	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
 	if err != nil {
 		t.Fatalf("error should have not occurred: %s", err.Error())
 	}
 
 	var buff bytes.Buffer
-	buff.WriteString(token)
+	buff.WriteString(testToken)
 	buff.WriteByte(' ')
 	buff.WriteString("test")
 	client.messages.Enqueue(&buff)
 
 	var buff2 bytes.Buffer
-	buff2.WriteString(token)
+	buff2.WriteString(testToken)
 	buff2.WriteByte(' ')
 	buff2.WriteString("first")
 	client.messages.PushFront(&buff2)
@@ -107,15 +105,15 @@ func TestMsgQueue_PushFront(t *testing.T) {
 		finalString += x.String()
 	}
 
-	if finalString != token+" first"+token+" test" {
-		t.Fatalf("[%s] expect [%s] result", token+" first"+token+" test", finalString)
+	if finalString != testToken+" first"+testToken+" test" {
+		t.Fatalf("[%s] expect [%s] result", testToken+" first"+testToken+" test", finalString)
 	}
 }
 
 // TestLogClient_ProcessQueue will test the ProcessQueue() method
 func TestLogClient_ProcessQueue(t *testing.T) {
-	token := "token"
-	client, err := NewLogEntriesClient(token, LogEntriesURL, LogEntriesPort)
+
+	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
 	if err != nil {
 		t.Fatalf("error should have not occurred: %s", err.Error())
 	}
@@ -123,7 +121,7 @@ func TestLogClient_ProcessQueue(t *testing.T) {
 	go client.ProcessQueue()
 
 	var buff bytes.Buffer
-	buff.WriteString(token)
+	buff.WriteString(testToken)
 	buff.WriteByte(' ')
 	buff.WriteString("test")
 	client.messages.Enqueue(&buff)
@@ -137,8 +135,8 @@ func TestLogClient_ProcessQueue(t *testing.T) {
 
 // TestLogClient_Println will test the Println() method
 func TestLogClient_Println(t *testing.T) {
-	token := "token"
-	client, err := NewLogEntriesClient(token, LogEntriesURL, LogEntriesPort)
+
+	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
 	if err != nil {
 		t.Fatalf("error should have not occurred: %s", err.Error())
 	}
@@ -152,8 +150,8 @@ func TestLogClient_Println(t *testing.T) {
 
 // TestLogClient_Printf will test the Printf() method
 func TestLogClient_Printf(t *testing.T) {
-	token := "token"
-	client, err := NewLogEntriesClient(token, LogEntriesURL, LogEntriesPort)
+
+	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
 	if err != nil {
 		t.Fatalf("error should have not occurred: %s", err.Error())
 	}
@@ -173,16 +171,15 @@ func TestLogClient_Printf(t *testing.T) {
 		finalString += x.String()
 	}
 
-	if finalString != token+" test 1" {
-		t.Fatalf("[%s] expect [%s] result", token+" test 1", finalString)
+	if finalString != testToken+" test 1" {
+		t.Fatalf("[%s] expect [%s] result", testToken+" test 1", finalString)
 	}
 }
 
 // TestLogClient_Fatalf will test the Fatalf() method
 func TestLogClient_Fatalf(t *testing.T) {
 
-	token := "token"
-	client, err := NewLogEntriesClient(token, LogEntriesURL, LogEntriesPort)
+	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
 	if err != nil {
 		t.Fatalf("error should have not occurred: %s", err.Error())
 	}
@@ -203,8 +200,7 @@ func TestLogClient_Fatalf(t *testing.T) {
 // TestLogClient_Fatalln will test the Fatalln() method
 func TestLogClient_Fatalln(t *testing.T) {
 
-	token := "token"
-	client, err := NewLogEntriesClient(token, LogEntriesURL, LogEntriesPort)
+	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
 	if err != nil {
 		t.Fatalf("error should have not occurred: %s", err.Error())
 	}
