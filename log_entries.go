@@ -135,8 +135,9 @@ func (l *LogClient) Panic(v ...interface{}) {
 	var buff bytes.Buffer
 	buff.WriteString(l.token)
 	buff.WriteByte(' ')
-	buff.WriteString(fmt.Sprint(v...))
+	buff.WriteString(fmt.Sprintln(v...))
 	_ = l.sendOne(&buff)
+	time.Sleep(2 * time.Second)
 	os.Exit(1)
 }
 
@@ -147,6 +148,7 @@ func (l *LogClient) Panicln(v ...interface{}) {
 	buff.WriteByte(' ')
 	buff.WriteString(fmt.Sprintln(v...))
 	_ = l.sendOne(&buff)
+	time.Sleep(2 * time.Second)
 	os.Exit(1)
 }
 
@@ -157,6 +159,7 @@ func (l *LogClient) Panicf(format string, v ...interface{}) {
 	buff.WriteByte(' ')
 	buff.WriteString(fmt.Sprintf(format, v...))
 	_ = l.sendOne(&buff)
+	time.Sleep(2 * time.Second)
 	os.Exit(1)
 }
 
@@ -180,8 +183,9 @@ func (l *LogClient) Fatal(v ...interface{}) {
 	var buff bytes.Buffer
 	buff.WriteString(l.token)
 	buff.WriteByte(' ')
-	buff.WriteString(fmt.Sprint(v...))
+	buff.WriteString(fmt.Sprintln(v...))
 	_ = l.sendOne(&buff)
+	time.Sleep(2 * time.Second)
 	os.Exit(1)
 }
 
@@ -192,6 +196,7 @@ func (l *LogClient) Fatalln(v ...interface{}) {
 	buff.WriteByte(' ')
 	buff.WriteString(fmt.Sprintln(v...))
 	_ = l.sendOne(&buff)
+	time.Sleep(2 * time.Second)
 	os.Exit(1)
 }
 
@@ -202,6 +207,7 @@ func (l *LogClient) Fatalf(format string, v ...interface{}) {
 	buff.WriteByte(' ')
 	buff.WriteString(fmt.Sprintf(format, v...))
 	_ = l.sendOne(&buff)
+	time.Sleep(2 * time.Second)
 	os.Exit(1)
 }
 
