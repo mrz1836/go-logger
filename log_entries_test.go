@@ -6,6 +6,8 @@ import (
 	"os/exec"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 const testToken = "token"
@@ -13,46 +15,33 @@ const testToken = "token"
 // TestNewLogEntriesClient will test the NewLogEntriesClient() method
 func TestNewLogEntriesClient(t *testing.T) {
 	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
-	if err != nil {
-		t.Fatalf("error should have not occurred: %s", err.Error())
-	}
+	assert.NoError(t, err)
+	assert.NotNil(t, client)
 
-	if client.port != LogEntriesPort {
-		t.Fatalf("[%s] expect [%s] result", LogEntriesPort, client.port)
-	}
+	assert.Equal(t, LogEntriesPort, client.port)
+	assert.Equal(t, LogEntriesURL, client.endpoint)
+	assert.Equal(t, testToken, client.token)
 
-	if client.endpoint != LogEntriesURL {
-		t.Fatalf("[%s] expect [%s] result", LogEntriesURL, client.endpoint)
-	}
+	client, err = NewLogEntriesClient("token", LogEntriesURL, "101010")
+	assert.Error(t, err)
+	assert.NotNil(t, client)
 
-	if client.token != testToken {
-		t.Fatalf("[%s] expect [%s] result", testToken, client.token)
-	}
-
-	_, err = NewLogEntriesClient("token", LogEntriesURL, "101010")
-	if err == nil {
-		t.Fatalf("error should have occurred")
-	}
-
-	_, err = NewLogEntriesClient("token", "http://badurl.com", LogEntriesPort)
-	if err == nil {
-		t.Fatalf("error should have occurred")
-	}
+	client, err = NewLogEntriesClient("token", "http://badurl.com", LogEntriesPort)
+	assert.Error(t, err)
+	assert.NotNil(t, client)
 
 	// Double open
-	_, err = NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
-	if err != nil {
-		t.Fatalf("error should have not occurred: %s", err.Error())
-	}
+	client, err = NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
+	assert.NoError(t, err)
+	assert.NotNil(t, client)
 }
 
 // TestMsgQueue_Enqueue will test the Enqueue() method
 func TestMsgQueue_Enqueue(t *testing.T) {
 
 	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
-	if err != nil {
-		t.Fatalf("error should have not occurred: %s", err.Error())
-	}
+	assert.NoError(t, err)
+	assert.NotNil(t, client)
 
 	var buff bytes.Buffer
 	buff.WriteString(testToken)
@@ -60,14 +49,10 @@ func TestMsgQueue_Enqueue(t *testing.T) {
 	buff.WriteString("test")
 	client.messages.Enqueue(&buff)
 
-	if len(client.messages.messagesToSend) == 0 {
-		t.Fatalf("missing messages to send: %v", client.messages.messagesToSend)
-	}
+	assert.Equal(t, 1, len(client.messages.messagesToSend))
 
 	for x := range client.messages.messagesToSend {
-		if x.String() != testToken+" test" {
-			t.Fatalf("[%s] expect [%s] result", testToken+" test", x.String())
-		}
+		assert.Equal(t, testToken+" test", x.String())
 		close(client.messages.messagesToSend)
 	}
 }
@@ -76,9 +61,8 @@ func TestMsgQueue_Enqueue(t *testing.T) {
 func TestMsgQueue_PushFront(t *testing.T) {
 
 	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
-	if err != nil {
-		t.Fatalf("error should have not occurred: %s", err.Error())
-	}
+	assert.NoError(t, err)
+	assert.NotNil(t, client)
 
 	var buff bytes.Buffer
 	buff.WriteString(testToken)
@@ -92,9 +76,7 @@ func TestMsgQueue_PushFront(t *testing.T) {
 	buff2.WriteString("first")
 	client.messages.PushFront(&buff2)
 
-	if len(client.messages.messagesToSend) == 0 {
-		t.Fatalf("missing messages to send: %v", client.messages.messagesToSend)
-	}
+	assert.Equal(t, 2, len(client.messages.messagesToSend))
 
 	go func() {
 		close(client.messages.messagesToSend)
@@ -105,18 +87,15 @@ func TestMsgQueue_PushFront(t *testing.T) {
 		finalString += x.String()
 	}
 
-	if finalString != testToken+" first"+testToken+" test" {
-		t.Fatalf("[%s] expect [%s] result", testToken+" first"+testToken+" test", finalString)
-	}
+	assert.Equal(t, testToken+" first"+testToken+" test", finalString)
 }
 
 // TestLogClient_ProcessQueue will test the ProcessQueue() method
 func TestLogClient_ProcessQueue(t *testing.T) {
 
 	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
-	if err != nil {
-		t.Fatalf("error should have not occurred: %s", err.Error())
-	}
+	assert.NoError(t, err)
+	assert.NotNil(t, client)
 
 	go client.ProcessQueue()
 
@@ -128,39 +107,31 @@ func TestLogClient_ProcessQueue(t *testing.T) {
 
 	time.Sleep(3 * time.Second)
 
-	if len(client.messages.messagesToSend) > 0 {
-		t.Fatal("no messages should be in queue", len(client.messages.messagesToSend))
-	}
+	assert.Equal(t, 0, len(client.messages.messagesToSend))
 }
 
 // TestLogClient_Println will test the Println() method
 func TestLogClient_Println(t *testing.T) {
 
 	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
-	if err != nil {
-		t.Fatalf("error should have not occurred: %s", err.Error())
-	}
+	assert.NoError(t, err)
+	assert.NotNil(t, client)
 
 	client.Println("test", "this")
 
-	if len(client.messages.messagesToSend) == 0 {
-		t.Fatal("expected message to send")
-	}
+	assert.Equal(t, 1, len(client.messages.messagesToSend))
 }
 
 // TestLogClient_Printf will test the Printf() method
 func TestLogClient_Printf(t *testing.T) {
 
 	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
-	if err != nil {
-		t.Fatalf("error should have not occurred: %s", err.Error())
-	}
+	assert.NoError(t, err)
+	assert.NotNil(t, client)
 
 	client.Printf("test %d", 1)
 
-	if len(client.messages.messagesToSend) == 0 {
-		t.Fatal("expected message to send")
-	}
+	assert.Equal(t, 1, len(client.messages.messagesToSend))
 
 	go func() {
 		close(client.messages.messagesToSend)
@@ -171,18 +142,15 @@ func TestLogClient_Printf(t *testing.T) {
 		finalString += x.String()
 	}
 
-	if finalString != testToken+" test 1" {
-		t.Fatalf("[%s] expect [%s] result", testToken+" test 1", finalString)
-	}
+	assert.Equal(t, testToken+" test 1", finalString)
 }
 
 // TestLogClient_Fatalf will test the Fatalf() method
 func TestLogClient_Fatalf(t *testing.T) {
 
 	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
-	if err != nil {
-		t.Fatalf("error should have not occurred: %s", err.Error())
-	}
+	assert.NoError(t, err)
+	assert.NotNil(t, client)
 
 	if os.Getenv("EXIT_FUNCTION") == "1" {
 		client.Fatalf("test %d", 1)
@@ -201,9 +169,8 @@ func TestLogClient_Fatalf(t *testing.T) {
 func TestLogClient_Fatalln(t *testing.T) {
 
 	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
-	if err != nil {
-		t.Fatalf("error should have not occurred: %s", err.Error())
-	}
+	assert.NoError(t, err)
+	assert.NotNil(t, client)
 
 	if os.Getenv("EXIT_FUNCTION") == "1" {
 		client.Fatalln("test exit")

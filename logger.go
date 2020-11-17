@@ -99,6 +99,11 @@ func SetImplementation(impl Logger) {
 	implementation = impl
 }
 
+// GetImplementation gets the current logger implementation
+func GetImplementation() Logger {
+	return implementation
+}
+
 // FileTag tag file
 func FileTag(level int) string {
 	comps := FileTagComponents(level + 1)

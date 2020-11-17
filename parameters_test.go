@@ -1,19 +1,17 @@
 package logger
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
 
 // TestMakeParameter test making an error struct and MakeParameter() method
 func TestMakeParameter(t *testing.T) {
 	param := MakeParameter("myKey", "myValue")
-	if param.Key() != "myKey" {
-		t.Fatalf("expected value: %s, got: %s", "myKey", param.Key())
-	}
-	if param.Value() != "myValue" {
-		t.Fatalf("expected value: %s, got: %s", "myValue", param.Value())
-	}
-	if param.String() != `{"key":"myKey","value":"myValue"}` {
-		t.Fatalf("expected value: %s, got: %s", `{"key":"myKey","value":"myValue"}`, param.String())
-	}
+	assert.Equal(t, "myKey", param.Key())
+	assert.Equal(t, "myValue", param.Value())
+	assert.Equal(t, `{"key":"myKey","value":"myValue"}`, param.String())
 }
 
 // BenchmarkMakeParameter benchmarks the MakeParameter() method

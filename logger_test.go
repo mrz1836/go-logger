@@ -7,9 +7,10 @@ import (
 	"log"
 	"os"
 	"os/exec"
-	"strings"
 	"sync"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 // captureOutput captures the output of log, fmt or os.Stderr.WriteString
@@ -50,33 +51,23 @@ func TestLogLevel_String(t *testing.T) {
 	var level LogLevel
 
 	// Test for debug
-	if level.String() != "debug" {
-		t.Fatalf("expected string to be: %s, got: %s", "debug", level.String())
-	}
+	assert.Equal(t, "debug", level.String())
 
 	// Test for info
 	level = 1
-	if level.String() != "info" {
-		t.Fatalf("expected string to be: %s, got: %s", "info", level.String())
-	}
+	assert.Equal(t, "info", level.String())
 
 	// Test for warn
 	level = 2
-	if level.String() != "warn" {
-		t.Fatalf("expected string to be: %s, got: %s", "warn", level.String())
-	}
+	assert.Equal(t, "warn", level.String())
 
 	// Test for error
 	level = 3
-	if level.String() != "error" {
-		t.Fatalf("expected string to be: %s, got: %s", "error", level.String())
-	}
+	assert.Equal(t, "error", level.String())
 
 	// Test for empty
 	level = 4
-	if level.String() != "" {
-		t.Fatalf("expected string to be: %s, got: %s", "", level.String())
-	}
+	assert.Equal(t, "", level.String())
 }
 
 // ExampleLogLevel_String example using level.String()
@@ -99,9 +90,7 @@ func TestFileTag(t *testing.T) {
 
 	// File tag
 	fileTag := FileTag(1)
-	if !strings.Contains(fileTag, "go-logger/logger_test.go:go-logger.TestFileTag:") {
-		t.Fatalf("expected file tag: %s, got: %s", "go-logger/logger_test.go:go-logger.TestFileTag:", fileTag)
-	}
+	assert.Contains(t, fileTag, "go-logger/logger_test.go:go-logger.TestFileTag:")
 }
 
 // ExampleFileTag example using FileTag()
@@ -124,42 +113,28 @@ func TestFileTagComponents(t *testing.T) {
 
 	// Test the level: 2
 	fileTagComps := FileTagComponents(2)
-	if len(fileTagComps) == 0 || len(fileTagComps) != 3 {
-		t.Fatal("expected file tag components to have 3 components")
-	}
+	assert.NotEqual(t, 0, len(fileTagComps))
+	assert.Equal(t, 3, len(fileTagComps))
 
 	// Test the part
-	if fileTagComps[0] != "testing/testing.go" {
-		t.Fatalf("expected component: %s, got: %s", "testing/testing.go", fileTagComps[0])
-	}
+	assert.Equal(t, "testing/testing.go", fileTagComps[0])
 
 	// Test the part
-	if fileTagComps[1] != "testing.tRunner" {
-		t.Fatalf("expected component: %s, got: %s", "testing.tRunner", fileTagComps[1])
-	}
+	assert.Equal(t, "testing.tRunner", fileTagComps[1])
 
 	// Test the part // todo: this number changes frequently, maybe this is not the best test?
-	/*
-		if fileTagComps[2] != "1127" {
-			t.Fatalf("expected component: %s, got: %s", "991", fileTagComps[2])
-		}
-	*/
+	assert.NotEqual(t, 0, fileTagComps[2])
 
 	// Test the level: 1
 	fileTagComps = FileTagComponents(1)
-	if len(fileTagComps) == 0 || len(fileTagComps) != 3 {
-		t.Fatal("expected file tag components to have 3 components")
-	}
+	assert.NotEqual(t, 0, len(fileTagComps))
+	assert.Equal(t, 3, len(fileTagComps))
 
 	// Test the part
-	if fileTagComps[0] != "go-logger/logger_test.go" {
-		t.Fatalf("expected component: %s, got: %s", "go-logger/logger_test.go", fileTagComps[0])
-	}
+	assert.Equal(t, "go-logger/logger_test.go", fileTagComps[0])
 
 	// Test the part
-	if fileTagComps[1] != "go-logger.TestFileTagComponents" {
-		t.Fatalf("expected component: %s, got: %s", "go-logger.TestFileTagComponents", fileTagComps[1])
-	}
+	assert.Equal(t, "go-logger.TestFileTagComponents", fileTagComps[1])
 }
 
 // ExampleFileTagComponents example using FileTagComponents()
@@ -182,13 +157,8 @@ func TestPrintln(t *testing.T) {
 		Println("test this method")
 	})
 
-	if !strings.Contains(captured, "go-logger/logger_test.go:go-logger.TestPrintln") {
-		t.Fatalf("expected string: %s got: %s", "go-logger/logger_test.go:go-logger.TestPrintln", captured)
-	}
-
-	if !strings.Contains(captured, "test this method") {
-		t.Fatalf("expected string: %s got: %s", "test this method", captured)
-	}
+	assert.Contains(t, captured, "go-logger/logger_test.go:go-logger.TestPrintln")
+	assert.Contains(t, captured, "test this method")
 }
 
 // TestNoFilePrintln test the print line method
@@ -196,10 +166,7 @@ func TestNoFilePrintln(t *testing.T) {
 	captured := captureOutput(func() {
 		NoFilePrintln("test this method")
 	})
-
-	if !strings.Contains(captured, "test this method") {
-		t.Fatalf("expected string: %s got: %s", "test this method", captured)
-	}
+	assert.Contains(t, captured, "test this method")
 }
 
 // BenchmarkPrintln benchmarks the Println() method
@@ -215,13 +182,8 @@ func TestPrintf(t *testing.T) {
 		Printf("test this method: %s", "TestPrintf")
 	})
 
-	if !strings.Contains(captured, "go-logger/logger_test.go:go-logger.TestPrintf") {
-		t.Fatalf("expected string: %s got: %s", "go-logger/logger_test.go:go-logger.TestPrintf", captured)
-	}
-
-	if !strings.Contains(captured, "test this method: TestPrintf") {
-		t.Fatalf("expected string: %s got: %s", "test this method: TestPrintf", captured)
-	}
+	assert.Contains(t, captured, "go-logger/logger_test.go:go-logger.TestPrintf")
+	assert.Contains(t, captured, "test this method: TestPrintf")
 }
 
 // TestNoFilePrintf test the print fmt method
@@ -230,9 +192,7 @@ func TestNoFilePrintf(t *testing.T) {
 		NoFilePrintf("test this method: %s", "TestPrintf")
 	})
 
-	if !strings.Contains(captured, "test this method: TestPrintf") {
-		t.Fatalf("expected string: %s got: %s", "test this method: TestPrintf", captured)
-	}
+	assert.Contains(t, captured, "test this method: TestPrintf")
 }
 
 // BenchmarkPrintf benchmarks the Printf() method
@@ -248,13 +208,8 @@ func TestErrorln(t *testing.T) {
 		Errorln(2, "test this method")
 	})
 
-	if !strings.Contains(captured, "go-logger/logger_test.go:go-logger.TestErrorln") {
-		t.Fatalf("expected string: %s got: %s", "go-logger/logger_test.go:go-logger.TestErrorln", captured)
-	}
-
-	if !strings.Contains(captured, "test this method") {
-		t.Fatalf("expected string: %s got: %s", "test this method", captured)
-	}
+	assert.Contains(t, captured, "go-logger/logger_test.go:go-logger.TestErrorln")
+	assert.Contains(t, captured, "test this method")
 }
 
 // BenchmarkErrorln benchmarks the Errorln() method
@@ -270,13 +225,8 @@ func TestErrorfmt(t *testing.T) {
 		Errorfmt(2, "test this method: %s", "Errorfmt")
 	})
 
-	if !strings.Contains(captured, "go-logger/logger_test.go:go-logger.TestErrorfmt") {
-		t.Fatalf("expected string: %s got: %s", "go-logger/logger_test.go:go-logger.TestErrorfmt", captured)
-	}
-
-	if !strings.Contains(captured, "test this method: Errorfmt") {
-		t.Fatalf("expected string: %s got: %s", "test this method: Errorfmt", captured)
-	}
+	assert.Contains(t, captured, "go-logger/logger_test.go:go-logger.TestErrorfmt")
+	assert.Contains(t, captured, "test this method: Errorfmt")
 }
 
 // BenchmarkErrorfmt benchmarks the Errorfmt() method
@@ -295,29 +245,19 @@ func TestData(t *testing.T) {
 	// 2019/06/17 12:59:32 type="warn" file="go-logger/logger_test.go" method="go-logger.TestData.func1" line="188" message="test this method" another="value"
 
 	// Check for warn
-	if !strings.Contains(captured, `type="warn"`) {
-		t.Fatalf("expected string: %s, got: %s", `type="warn"`, captured)
-	}
+	assert.Contains(t, captured, `type="warn"`)
 
 	// Check for file
-	if !strings.Contains(captured, `file="go-logger/logger_test.go"`) {
-		t.Fatalf("expected string: %s, got: %s", `file="go-logger/logger_test.go"`, captured)
-	}
+	assert.Contains(t, captured, `file="go-logger/logger_test.go"`)
 
 	// Check for method
-	if !strings.Contains(captured, `method="go-logger.TestData.func1"`) {
-		t.Fatalf("expected string: %s, got: %s", `method="go-logger.TestData.func1"`, captured)
-	}
+	assert.Contains(t, captured, `method="go-logger.TestData.func1"`)
 
 	// Check for message
-	if !strings.Contains(captured, `message="test this method"`) {
-		t.Fatalf("expected string: %s, got: %s", `message="test this method"`, captured)
-	}
+	assert.Contains(t, captured, `message="test this method"`)
 
 	// Check for additional values
-	if !strings.Contains(captured, `another="value"`) {
-		t.Fatalf("expected string: %s, got: %s", `another="value"`, captured)
-	}
+	assert.Contains(t, captured, `another="value"`)
 }
 
 // TestNoFileData test the NoFileData() method
@@ -327,19 +267,13 @@ func TestNoFileData(t *testing.T) {
 	})
 
 	// Check for warn
-	if !strings.Contains(captured, `type="warn"`) {
-		t.Fatalf("expected string: %s, got: %s", `type="warn"`, captured)
-	}
+	assert.Contains(t, captured, `type="warn"`)
 
 	// Check for message
-	if !strings.Contains(captured, `message="test this method"`) {
-		t.Fatalf("expected string: %s, got: %s", `message="test this method"`, captured)
-	}
+	assert.Contains(t, captured, `message="test this method"`)
 
 	// Check for additional values
-	if !strings.Contains(captured, `another="value"`) {
-		t.Fatalf("expected string: %s, got: %s", `another="value"`, captured)
-	}
+	assert.Contains(t, captured, `another="value"`)
 }
 
 // BenchmarkData benchmarks the Data() method
@@ -357,9 +291,7 @@ func TestLogPkg_Printf(t *testing.T) {
 		implementation.Printf("test this method: %s", "TestPrintf")
 	})
 
-	if !strings.Contains(captured, "test this method: TestPrintf") {
-		t.Fatalf("expected string: %s got: %s", "test this method: TestPrintf", captured)
-	}
+	assert.Contains(t, captured, "test this method: TestPrintf")
 }
 
 // BenchmarkLogPkg_Printf benchmarks the LogPkg_Printf() method
@@ -378,9 +310,7 @@ func TestLogPkg_Println(t *testing.T) {
 		implementation.Println("test this method: TestPrintln")
 	})
 
-	if !strings.Contains(captured, "test this method: TestPrintln") {
-		t.Fatalf("expected string: %s got: %s", "test this method: TestPrintln", captured)
-	}
+	assert.Contains(t, captured, "test this method: TestPrintln")
 }
 
 // BenchmarkLogPkg_Println benchmarks the LogPkg_Println() method
@@ -396,11 +326,13 @@ func TestFatalf(t *testing.T) {
 
 	token := "token"
 	client, err := NewLogEntriesClient(token, LogEntriesURL, LogEntriesPort)
-	if err != nil {
-		t.Fatalf("error should have not occurred: %s", err.Error())
-	}
+	assert.NoError(t, err)
+	assert.NotNil(t, client)
 
 	SetImplementation(client)
+
+	theImplementation := GetImplementation()
+	assert.NotNil(t, theImplementation)
 
 	if os.Getenv("EXIT_FUNCTION") == "1" {
 		Fatalf("test %d", 1)
@@ -420,9 +352,8 @@ func TestFatalln(t *testing.T) {
 
 	token := "token"
 	client, err := NewLogEntriesClient(token, LogEntriesURL, LogEntriesPort)
-	if err != nil {
-		t.Fatalf("error should have not occurred: %s", err.Error())
-	}
+	assert.NoError(t, err)
+	assert.NotNil(t, client)
 
 	SetImplementation(client)
 
