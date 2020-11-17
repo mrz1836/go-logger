@@ -161,6 +161,16 @@ func TestPrintln(t *testing.T) {
 	assert.Contains(t, captured, "test this method")
 }
 
+// TestPrint test the print method
+func TestPrint(t *testing.T) {
+	captured := captureOutput(func() {
+		Print("test this method")
+	})
+
+	assert.Contains(t, captured, "go-logger/logger_test.go:go-logger.TestPrint")
+	assert.Contains(t, captured, "test this method")
+}
+
 // TestNoFilePrintln test the print line method
 func TestNoFilePrintln(t *testing.T) {
 	captured := captureOutput(func() {
@@ -324,8 +334,7 @@ func BenchmarkLogPkg_Println(b *testing.B) {
 // TestFatalf will test the Fatalf() method
 func TestFatalf(t *testing.T) {
 
-	token := "token"
-	client, err := NewLogEntriesClient(token, LogEntriesURL, LogEntriesPort)
+	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
 	assert.NoError(t, err)
 	assert.NotNil(t, client)
 
@@ -347,11 +356,32 @@ func TestFatalf(t *testing.T) {
 	t.Fatalf("process ran with err %v, want exit status 1", err)
 }
 
-// TestFatalf will test the Fatalln() method
+// TestFatal will test the Fatal() method
+func TestFatal(t *testing.T) {
+
+	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
+	assert.NoError(t, err)
+	assert.NotNil(t, client)
+
+	SetImplementation(client)
+
+	if os.Getenv("EXIT_FUNCTION") == "1" {
+		Fatal("test exit")
+		return
+	}
+	cmd := exec.Command(os.Args[0], "-test.run=TestFatal")
+	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
+	err = cmd.Run()
+	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+		return
+	}
+	t.Fatalf("process ran with err %v, want exit status 1", err)
+}
+
+// TestFatalln will test the Fatalln() method
 func TestFatalln(t *testing.T) {
 
-	token := "token"
-	client, err := NewLogEntriesClient(token, LogEntriesURL, LogEntriesPort)
+	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
 	assert.NoError(t, err)
 	assert.NotNil(t, client)
 
@@ -362,6 +392,75 @@ func TestFatalln(t *testing.T) {
 		return
 	}
 	cmd := exec.Command(os.Args[0], "-test.run=TestFatalln")
+	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
+	err = cmd.Run()
+	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+		return
+	}
+	t.Fatalf("process ran with err %v, want exit status 1", err)
+}
+
+// TestPanic will test the Panic() method
+func TestPanic(t *testing.T) {
+
+	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
+	assert.NoError(t, err)
+	assert.NotNil(t, client)
+
+	SetImplementation(client)
+
+	if os.Getenv("EXIT_FUNCTION") == "1" {
+		Panic("test exit")
+		return
+	}
+	cmd := exec.Command(os.Args[0], "-test.run=TestPanic")
+	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
+	err = cmd.Run()
+	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+		return
+	}
+	t.Fatalf("process ran with err %v, want exit status 1", err)
+}
+
+// TestPanicln will test the Panicln() method
+func TestPanicln(t *testing.T) {
+
+	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
+	assert.NoError(t, err)
+	assert.NotNil(t, client)
+
+	SetImplementation(client)
+
+	if os.Getenv("EXIT_FUNCTION") == "1" {
+		Panicln("test exit")
+		return
+	}
+	cmd := exec.Command(os.Args[0], "-test.run=TestPanicln")
+	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
+	err = cmd.Run()
+	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+		return
+	}
+	t.Fatalf("process ran with err %v, want exit status 1", err)
+}
+
+// TestPanicf will test the Panicf() method
+func TestPanicf(t *testing.T) {
+
+	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
+	assert.NoError(t, err)
+	assert.NotNil(t, client)
+
+	SetImplementation(client)
+
+	theImplementation := GetImplementation()
+	assert.NotNil(t, theImplementation)
+
+	if os.Getenv("EXIT_FUNCTION") == "1" {
+		Panicf("test %d", 1)
+		return
+	}
+	cmd := exec.Command(os.Args[0], "-test.run=TestPanicf")
 	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
 	err = cmd.Run()
 	if e, ok := err.(*exec.ExitError); ok && !e.Success() {

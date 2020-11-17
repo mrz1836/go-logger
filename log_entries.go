@@ -130,6 +130,41 @@ func (l *LogClient) write(data string) {
 	l.messages.Enqueue(&buff)
 }
 
+// Panic overloads built-in method
+func (l *LogClient) Panic(v ...interface{}) {
+	var buff bytes.Buffer
+	buff.WriteString(l.token)
+	buff.WriteByte(' ')
+	buff.WriteString(fmt.Sprint(v...))
+	_ = l.sendOne(&buff)
+	os.Exit(1)
+}
+
+// Panicln overloads built-in method
+func (l *LogClient) Panicln(v ...interface{}) {
+	var buff bytes.Buffer
+	buff.WriteString(l.token)
+	buff.WriteByte(' ')
+	buff.WriteString(fmt.Sprintln(v...))
+	_ = l.sendOne(&buff)
+	os.Exit(1)
+}
+
+// Panicf overloads built-in method
+func (l *LogClient) Panicf(format string, v ...interface{}) {
+	var buff bytes.Buffer
+	buff.WriteString(l.token)
+	buff.WriteByte(' ')
+	buff.WriteString(fmt.Sprintf(format, v...))
+	_ = l.sendOne(&buff)
+	os.Exit(1)
+}
+
+// Print overloads built-in method
+func (l *LogClient) Print(v ...interface{}) {
+	l.write(fmt.Sprint(v...))
+}
+
 // Println overloads built-in method
 func (l *LogClient) Println(v ...interface{}) {
 	l.write(fmt.Sprintln(v...))
@@ -138,6 +173,16 @@ func (l *LogClient) Println(v ...interface{}) {
 // Printf overloads built-in method
 func (l *LogClient) Printf(format string, v ...interface{}) {
 	l.write(fmt.Sprintf(format, v...))
+}
+
+// Fatal overloads built-in method
+func (l *LogClient) Fatal(v ...interface{}) {
+	var buff bytes.Buffer
+	buff.WriteString(l.token)
+	buff.WriteByte(' ')
+	buff.WriteString(fmt.Sprint(v...))
+	_ = l.sendOne(&buff)
+	os.Exit(1)
 }
 
 // Fatalln overloads built-in method

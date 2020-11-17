@@ -22,11 +22,11 @@ func TestNewLogEntriesClient(t *testing.T) {
 	assert.Equal(t, LogEntriesURL, client.endpoint)
 	assert.Equal(t, testToken, client.token)
 
-	client, err = NewLogEntriesClient("token", LogEntriesURL, "101010")
+	client, err = NewLogEntriesClient(testToken, LogEntriesURL, "101010")
 	assert.Error(t, err)
 	assert.NotNil(t, client)
 
-	client, err = NewLogEntriesClient("token", "http://badurl.com", LogEntriesPort)
+	client, err = NewLogEntriesClient(testToken, "http://badurl.com", LogEntriesPort)
 	assert.Error(t, err)
 	assert.NotNil(t, client)
 

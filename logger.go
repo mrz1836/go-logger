@@ -15,10 +15,15 @@ import (
 
 // Logger interface describes the functionality that a log service must implement
 type Logger interface {
-	Println(v ...interface{})
-	Printf(format string, v ...interface{})
-	Fatalln(v ...interface{})
+	Fatal(...interface{})
 	Fatalf(format string, v ...interface{})
+	Fatalln(v ...interface{})
+	Panic(...interface{})
+	Panicf(string, ...interface{})
+	Panicln(...interface{})
+	Print(...interface{})
+	Printf(format string, v ...interface{})
+	Println(v ...interface{})
 }
 
 // KeyValue key value for errors
@@ -119,18 +124,37 @@ func FileTagComponents(level int) []string {
 	return []string{strings.Join(path[len(path)-2:], "/"), methodPath[len(methodPath)-1], strconv.Itoa(line)}
 }
 
+// Panic is equivalent to Print() followed by a call to os.Exit(1)
+func Panic(v ...interface{}) {
+	values := []interface{}{FileTag(2)}
+	values = append(values, v...)
+	implementation.Panic(values...)
+}
+
+// Panicln is equivalent to Println() followed by a call to os.Exit(1)
+func Panicln(v ...interface{}) {
+	values := []interface{}{FileTag(2)}
+	values = append(values, v...)
+	implementation.Panicln(values...)
+}
+
+// Panicf is equivalent to Printf() followed by a call to os.Exit(1)
+func Panicf(format string, v ...interface{}) {
+	implementation.Panicf(FileTag(2)+" "+format, v...)
+}
+
+// Print calls Output to print to the connected logger.
+// Arguments are handled in the manner of fmt.Print.
+func Print(v ...interface{}) {
+	values := []interface{}{FileTag(2)}
+	values = append(values, v...)
+	implementation.Print(values...)
+}
+
 // Println calls Output to print to the connected logger.
 // Arguments are handled in the manner of fmt.Println.
 func Println(v ...interface{}) {
 	values := []interface{}{FileTag(2)}
-	values = append(values, v...)
-	implementation.Println(values...)
-}
-
-// NoFilePrintln calls Output to print to the connected logger.
-// Arguments are handled in the manner of fmt.Println.
-func NoFilePrintln(v ...interface{}) {
-	var values []interface{}
 	values = append(values, v...)
 	implementation.Println(values...)
 }
@@ -141,10 +165,25 @@ func Printf(format string, v ...interface{}) {
 	implementation.Printf(FileTag(2)+" "+format, v...)
 }
 
+// NoFilePrintln calls Output to print to the connected logger.
+// Arguments are handled in the manner of fmt.Println.
+func NoFilePrintln(v ...interface{}) {
+	var values []interface{}
+	values = append(values, v...)
+	implementation.Println(values...)
+}
+
 // NoFilePrintf calls Output to print to the connected logger.
 // Arguments are handled in the manner of fmt.Printf.
 func NoFilePrintf(format string, v ...interface{}) {
 	implementation.Printf(format, v...)
+}
+
+// Fatal is equivalent to Print() followed by a call to os.Exit(1)
+func Fatal(v ...interface{}) {
+	values := []interface{}{FileTag(2)}
+	values = append(values, v...)
+	implementation.Fatal(values...)
 }
 
 // Fatalln is equivalent to Println() followed by a call to os.Exit(1)
@@ -224,6 +263,26 @@ func NoFileData(logLevel LogLevel, message string, args ...KeyValue) {
 	NoFilePrintln(buf.String())
 }
 
+// Panic is normal panic
+func (l *logPkg) Panic(v ...interface{}) {
+	log.Fatal(v...)
+}
+
+// Panicln fatal line
+func (l *logPkg) Panicln(v ...interface{}) {
+	log.Fatalln(v...)
+}
+
+// Panicf fatal sprint line
+func (l *logPkg) Panicf(format string, v ...interface{}) {
+	log.Fatalf(format, v...)
+}
+
+// Print prints
+func (l *logPkg) Print(v ...interface{}) {
+	log.Print(v...)
+}
+
 // Println print line
 func (l *logPkg) Println(v ...interface{}) {
 	log.Println(v...)
@@ -232,6 +291,11 @@ func (l *logPkg) Println(v ...interface{}) {
 // Printf print sprint line
 func (l *logPkg) Printf(format string, v ...interface{}) {
 	log.Printf(format, v...)
+}
+
+// Fatal is normal fatal
+func (l *logPkg) Fatal(v ...interface{}) {
+	log.Fatal(v...)
 }
 
 // Fatalln fatal line
