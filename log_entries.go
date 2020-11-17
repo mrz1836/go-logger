@@ -162,7 +162,7 @@ func (l *LogClient) Panicf(format string, v ...interface{}) {
 
 // Print overloads built-in method
 func (l *LogClient) Print(v ...interface{}) {
-	l.write(fmt.Sprint(v...))
+	l.write(fmt.Sprintln(v...))
 }
 
 // Println overloads built-in method
