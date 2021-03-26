@@ -2,6 +2,8 @@ package logger
 
 import "time"
 
+// More info: https://docs.rapid7.com/insightidr/ports-used-by-insightidr/
+
 // Package constants
 const (
 	LogEntriesPort = "10000"                   // 80, 514, 443, 10000
