@@ -334,7 +334,7 @@ func BenchmarkLogPkg_Println(b *testing.B) {
 // TestFatalf will test the Fatalf() method
 func TestFatalf(t *testing.T) {
 
-	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
+	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
 	assert.NoError(t, err)
 	assert.NotNil(t, client)
 
@@ -359,7 +359,7 @@ func TestFatalf(t *testing.T) {
 // TestFatal will test the Fatal() method
 func TestFatal(t *testing.T) {
 
-	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
+	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
 	assert.NoError(t, err)
 	assert.NotNil(t, client)
 
@@ -381,7 +381,7 @@ func TestFatal(t *testing.T) {
 // TestFatalln will test the Fatalln() method
 func TestFatalln(t *testing.T) {
 
-	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
+	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
 	assert.NoError(t, err)
 	assert.NotNil(t, client)
 
@@ -403,7 +403,7 @@ func TestFatalln(t *testing.T) {
 // TestPanic will test the Panic() method
 func TestPanic(t *testing.T) {
 
-	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
+	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
 	assert.NoError(t, err)
 	assert.NotNil(t, client)
 
@@ -425,7 +425,7 @@ func TestPanic(t *testing.T) {
 // TestPanicln will test the Panicln() method
 func TestPanicln(t *testing.T) {
 
-	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
+	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
 	assert.NoError(t, err)
 	assert.NotNil(t, client)
 
@@ -447,7 +447,7 @@ func TestPanicln(t *testing.T) {
 // TestPanicf will test the Panicf() method
 func TestPanicf(t *testing.T) {
 
-	client, err := NewLogEntriesClient(testToken, LogEntriesURL, LogEntriesPort)
+	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
 	assert.NoError(t, err)
 	assert.NotNil(t, client)
 
