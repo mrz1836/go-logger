@@ -1,5 +1,5 @@
 /*
-Package logger is an easy to use, super fast and extendable logging package for Go
+Package logger is an easy-to-use, super-fast and extendable logging package for Go
 */
 package logger
 
