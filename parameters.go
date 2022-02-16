@@ -22,7 +22,7 @@ func (p *Parameter) Value() interface{} {
 
 // Parameter json encodes the parameter into standard key=>value JSON
 func (p *Parameter) String() string {
-	data, _ := json.Marshal(p) // disregard error
+	data, _ := json.Marshal(p) // nolint: errchkjson // returns empty string on error
 	return string(data)
 }
 
