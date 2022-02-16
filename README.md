@@ -1,5 +1,5 @@
 # go-logger
-> Easy to use, extendable and super fast logging package for Go
+> Easy to use, extendable and superfast logging package for Go
 
 [![Release](https://img.shields.io/github/release-pre/mrz1836/go-logger.svg?logo=github&style=flat)](https://github.com/mrz1836/go-logger/releases)
 [![Build Status](https://img.shields.io/github/workflow/status/mrz1836/go-logger/run-go-tests?logo=github&v=3)](https://github.com/mrz1836/go-logger/actions)
@@ -157,8 +157,8 @@ func main() {
 
 ## Maintainers
 | [<img src="https://github.com/mrz1836.png" height="50" alt="MrZ" />](https://github.com/mrz1836) | [<img src="https://github.com/kayleg.png" height="50" alt="kayleg" />](https://github.com/kayleg) |
-|:---:|:---:|
-| [MrZ](https://github.com/mrz1836) | [kayleg](https://github.com/kayleg) |
+|:------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------:|
+|                                [MrZ](https://github.com/mrz1836)                                 |                                [kayleg](https://github.com/kayleg)                                |
 
 <br/>
 
@@ -175,4 +175,4 @@ or by making a [**bitcoin donation**](https://mrz1818.com/?tab=tips&af=go-logger
 
 ## License
 
-![License](https://img.shields.io/github/license/mrz1836/go-logger.svg?style=flat&p=1)
+[![License](https://img.shields.io/github/license/mrz1836/go-logger.svg?style=flat&p=1)](LICENSE)
