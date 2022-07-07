@@ -168,9 +168,12 @@ func displayLog(level LogLevel, stackLevel int, message string, params ...interf
 // Copied method in order to not make GORM a dependency of the project for this tiny utility method
 func fileWithLineNum() string {
 	// the first & second caller usually from gorm internal, so set index start from 3
-	for i := 3; i < 15; i++ {
+	for i := 2; i < 15; i++ {
 		_, file, line, ok := runtime.Caller(i)
-		if ok && (!strings.HasPrefix(file, gormSourceDir) || strings.HasSuffix(file, "_test.go")) {
+		if ok && (!strings.HasPrefix(file, gormSourceDir) ||
+			strings.HasSuffix(file, "_test.go") ||
+			strings.HasSuffix(file, "callback.go") ||
+			strings.HasSuffix(file, "finisher_api.go")) {
 			return file + ":" + strconv.FormatInt(int64(line), 10)
 		}
 	}
