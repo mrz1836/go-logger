@@ -38,18 +38,8 @@ const (
 	Info
 )
 
-// This is the time cut-off for considering a query as "slow"
-const slowQueryThreshold = 5 * time.Second
-
-/*// Sourced file directory path
-var gormSourceDir string
-
-// On init, get the source file and store as a variable
-func init() {
-	_, file, _, _ := runtime.Caller(0) // nolint: dogsled // other variables not needed
-	// compatible solution to get gorm source directory with various operating systems
-	gormSourceDir = regexp.MustCompile(`gorm\.go`).ReplaceAllString(file, "")
-}*/
+// SlowQueryThreshold is the time cut-off for considering a query as "slow"
+const SlowQueryThreshold = 5 * time.Second
 
 // NewGormLogger will return a basic logger interface
 func NewGormLogger(debugging bool, stackLevel int) GormLoggerInterface {
@@ -129,12 +119,12 @@ func (l *basicGormLogger) Trace(_ context.Context, begin time.Time, fc func() (s
 			MakeParameter("rows", rows),
 			MakeParameter("sql", sql),
 		)
-	case elapsed > slowQueryThreshold && l.logLevel >= Warn:
+	case elapsed > SlowQueryThreshold && l.logLevel >= Warn:
 		sql, rows := fc()
 		Data(l.stackLevel, WARN,
 			"warning executing query",
 			MakeParameter("file", fileWithLineNum()),
-			MakeParameter("slow_log", fmt.Sprintf("SLOW SQL >= %v", slowQueryThreshold)),
+			MakeParameter("slow_log", fmt.Sprintf("SLOW SQL >= %v", SlowQueryThreshold)),
 			MakeParameter("duration", fmt.Sprintf("%.3fms", float64(elapsed.Nanoseconds())/1e6)),
 			MakeParameter("rows", rows),
 			MakeParameter("sql", sql),
@@ -169,10 +159,11 @@ func fileWithLineNum() string {
 	// the first & second caller usually from gorm internal, so set index start from 3
 	for i := 2; i < 15; i++ {
 		_, file, line, ok := runtime.Caller(i)
-		if ok && (!strings.HasSuffix(file, "_test.go") &&
-			!strings.Contains(file, "gorm.go") &&
-			!strings.Contains(file, "callbacks.go") &&
-			!strings.Contains(file, "finisher_api.go")) {
+		if ok && (!strings.HasSuffix(file, "_test.go") && // Skip test files
+			!strings.Contains(file, "gorm.go") && // This is our local "gorm.go" file
+			// !strings.Contains(file, "migrator.go") && (This file actually is used when using Migrations
+			!strings.Contains(file, "callbacks.go") && // This file is a helper for GORM
+			!strings.Contains(file, "finisher_api.go")) { // This file is a helper for GORM
 			return file + ":" + strconv.FormatInt(int64(line), 10)
 		}
 	}
