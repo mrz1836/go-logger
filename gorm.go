@@ -3,7 +3,6 @@ package logger
 import (
 	"context"
 	"fmt"
-	"regexp"
 	"runtime"
 	"strconv"
 	"strings"
@@ -42,7 +41,7 @@ const (
 // This is the time cut-off for considering a query as "slow"
 const slowQueryThreshold = 5 * time.Second
 
-// Sourced file directory path
+/*// Sourced file directory path
 var gormSourceDir string
 
 // On init, get the source file and store as a variable
@@ -50,7 +49,7 @@ func init() {
 	_, file, _, _ := runtime.Caller(0) // nolint: dogsled // other variables not needed
 	// compatible solution to get gorm source directory with various operating systems
 	gormSourceDir = regexp.MustCompile(`gorm\.go`).ReplaceAllString(file, "")
-}
+}*/
 
 // NewGormLogger will return a basic logger interface
 func NewGormLogger(debugging bool, stackLevel int) GormLoggerInterface {
@@ -170,11 +169,10 @@ func fileWithLineNum() string {
 	// the first & second caller usually from gorm internal, so set index start from 3
 	for i := 2; i < 15; i++ {
 		_, file, line, ok := runtime.Caller(i)
-		if ok && (!strings.HasPrefix(file, gormSourceDir) ||
-			strings.HasSuffix(file, "_test.go") ||
-			strings.Contains(file, "gorm.go:") ||
-			strings.Contains(file, "callbacks.go:") ||
-			strings.Contains(file, "finisher_api.go:")) {
+		if ok && (!strings.HasSuffix(file, "_test.go") &&
+			!strings.Contains(file, "gorm.go:") &&
+			!strings.Contains(file, "callbacks.go:") &&
+			!strings.Contains(file, "finisher_api.go:")) {
 			return file + ":" + strconv.FormatInt(int64(line), 10)
 		}
 	}
