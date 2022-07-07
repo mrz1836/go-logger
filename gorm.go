@@ -170,9 +170,9 @@ func fileWithLineNum() string {
 	for i := 2; i < 15; i++ {
 		_, file, line, ok := runtime.Caller(i)
 		if ok && (!strings.HasSuffix(file, "_test.go") &&
-			!strings.Contains(file, "gorm.go:") &&
-			!strings.Contains(file, "callbacks.go:") &&
-			!strings.Contains(file, "finisher_api.go:")) {
+			!strings.Contains(file, "gorm.go") &&
+			!strings.Contains(file, "callbacks.go") &&
+			!strings.Contains(file, "finisher_api.go")) {
 			return file + ":" + strconv.FormatInt(int64(line), 10)
 		}
 	}
