@@ -47,7 +47,7 @@ var gormSourceDir string
 
 // On init, get the source file and store as a variable
 func init() {
-	_, file, _, _ := runtime.Caller(0)
+	_, file, _, _ := runtime.Caller(0) // nolint: dogsled // other variables not needed
 	// compatible solution to get gorm source directory with various operating systems
 	gormSourceDir = regexp.MustCompile(`gorm\.go`).ReplaceAllString(file, "")
 }
