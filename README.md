@@ -2,7 +2,7 @@
 > Easy to use, extendable and superfast logging package for Go
 
 [![Release](https://img.shields.io/github/release-pre/mrz1836/go-logger.svg?logo=github&style=flat)](https://github.com/mrz1836/go-logger/releases)
-[![Build Status](https://img.shields.io/github/workflow/status/mrz1836/go-logger/run-go-tests?logo=github&v=3)](https://github.com/mrz1836/go-logger/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/mrz1836/go-logger/run-tests.yml?branch=master&logo=github&v=3)](https://github.com/mrz1836/go-logger/actions)
 [![Report](https://goreportcard.com/badge/github.com/mrz1836/go-logger?style=flat)](https://goreportcard.com/report/github.com/mrz1836/go-logger)
 [![codecov](https://codecov.io/gh/mrz1836/go-logger/branch/master/graph/badge.svg)](https://codecov.io/gh/mrz1836/go-logger)
 [![Go](https://img.shields.io/github/go-mod/go-version/mrz1836/go-logger)](https://golang.org/)
