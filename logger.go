@@ -94,7 +94,7 @@ func init() {
 			go implementation.(*LogClient).ProcessQueue()
 		}
 	} else { // Basic implementation for local logging
-		log.Println("go-logger: internal logging")
+		// log.Println("go-logger: internal logging") // disabled, not needed
 		implementation = &logPkg{}
 	}
 }
