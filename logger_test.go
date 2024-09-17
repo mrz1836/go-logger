@@ -2,6 +2,7 @@ package logger
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -347,10 +348,11 @@ func TestFatalf(t *testing.T) {
 		Fatalf("test %d", 1)
 		return
 	}
-	cmd := exec.Command(os.Args[0], "-test.run=TestFatalf")
+	cmd := exec.Command(os.Args[0], "-test.run=TestFatalf") //nolint:gosec // G204
 	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
 	err = cmd.Run()
-	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+	var e *exec.ExitError
+	if errors.As(err, &e) && !e.Success() {
 		return
 	}
 	t.Fatalf("process ran with err %v, want exit status 1", err)
@@ -369,10 +371,11 @@ func TestFatal(t *testing.T) {
 		Fatal("test exit")
 		return
 	}
-	cmd := exec.Command(os.Args[0], "-test.run=TestFatal")
+	cmd := exec.Command(os.Args[0], "-test.run=TestFatal") //nolint:gosec // G204
 	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
 	err = cmd.Run()
-	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+	var e *exec.ExitError
+	if errors.As(err, &e) && !e.Success() {
 		return
 	}
 	t.Fatalf("process ran with err %v, want exit status 1", err)
@@ -391,10 +394,11 @@ func TestFatalln(t *testing.T) {
 		Fatalln("test exit")
 		return
 	}
-	cmd := exec.Command(os.Args[0], "-test.run=TestFatalln")
+	cmd := exec.Command(os.Args[0], "-test.run=TestFatalln") //nolint:gosec // G204
 	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
 	err = cmd.Run()
-	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+	var e *exec.ExitError
+	if errors.As(err, &e) && !e.Success() {
 		return
 	}
 	t.Fatalf("process ran with err %v, want exit status 1", err)
@@ -413,10 +417,11 @@ func TestPanic(t *testing.T) {
 		Panic("test exit")
 		return
 	}
-	cmd := exec.Command(os.Args[0], "-test.run=TestPanic")
+	cmd := exec.Command(os.Args[0], "-test.run=TestPanic") //nolint:gosec // G204
 	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
 	err = cmd.Run()
-	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+	var e *exec.ExitError
+	if errors.As(err, &e) && !e.Success() {
 		return
 	}
 	t.Fatalf("process ran with err %v, want exit status 1", err)
@@ -435,10 +440,11 @@ func TestPanicln(t *testing.T) {
 		Panicln("test exit")
 		return
 	}
-	cmd := exec.Command(os.Args[0], "-test.run=TestPanicln")
+	cmd := exec.Command(os.Args[0], "-test.run=TestPanicln") //nolint:gosec // G204
 	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
 	err = cmd.Run()
-	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+	var e *exec.ExitError
+	if errors.As(err, &e) && !e.Success() {
 		return
 	}
 	t.Fatalf("process ran with err %v, want exit status 1", err)
@@ -460,10 +466,11 @@ func TestPanicf(t *testing.T) {
 		Panicf("test %d", 1)
 		return
 	}
-	cmd := exec.Command(os.Args[0], "-test.run=TestPanicf")
+	cmd := exec.Command(os.Args[0], "-test.run=TestPanicf") //nolint:gosec // G204
 	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
 	err = cmd.Run()
-	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+	var e *exec.ExitError
+	if errors.As(err, &e) && !e.Success() {
 		return
 	}
 	t.Fatalf("process ran with err %v, want exit status 1", err)

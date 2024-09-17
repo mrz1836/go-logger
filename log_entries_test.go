@@ -2,6 +2,7 @@ package logger
 
 import (
 	"bytes"
+	"errors"
 	"os"
 	"os/exec"
 	"testing"
@@ -156,10 +157,11 @@ func TestLogClient_Fatalf(t *testing.T) {
 		client.Fatalf("test %d", 1)
 		return
 	}
-	cmd := exec.Command(os.Args[0], "-test.run=TestLogClient_Fatalf")
+	cmd := exec.Command(os.Args[0], "-test.run=TestLogClient_Fatalf") //nolint:gosec // G204
 	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
 	err = cmd.Run()
-	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+	var e *exec.ExitError
+	if errors.As(err, &e) && !e.Success() {
 		return
 	}
 	t.Fatalf("process ran with err %v, want exit status 1", err)
@@ -176,10 +178,11 @@ func TestLogClient_Fatalln(t *testing.T) {
 		client.Fatalln("test exit")
 		return
 	}
-	cmd := exec.Command(os.Args[0], "-test.run=TestLogClient_Fatalln")
+	cmd := exec.Command(os.Args[0], "-test.run=TestLogClient_Fatalln") //nolint:gosec // G204
 	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
 	err = cmd.Run()
-	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+	var e *exec.ExitError
+	if errors.As(err, &e) && !e.Success() {
 		return
 	}
 	t.Fatalf("process ran with err %v, want exit status 1", err)
