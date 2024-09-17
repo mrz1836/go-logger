@@ -11,14 +11,14 @@ import (
 
 // GormLoggerInterface is a logger interface to help work with GORM
 type GormLoggerInterface interface {
-	Error(context.Context, string, ...interface{})
+	Error(ctx context.Context, s string, v ...interface{})
 	GetMode() GormLogLevel
 	GetStackLevel() int
-	Info(context.Context, string, ...interface{})
-	SetMode(GormLogLevel) GormLoggerInterface
+	Info(ctx context.Context, s string, v ...interface{})
+	SetMode(gl GormLogLevel) GormLoggerInterface
 	SetStackLevel(level int)
 	Trace(ctx context.Context, begin time.Time, fc func() (sql string, rowsAffected int64), err error)
-	Warn(context.Context, string, ...interface{})
+	Warn(ctx context.Context, s string, v ...interface{})
 }
 
 // GormLogLevel is the GORM log level
