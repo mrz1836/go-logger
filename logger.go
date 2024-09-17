@@ -15,13 +15,13 @@ import (
 
 // Logger interface describes the functionality that a log service must implement
 type Logger interface {
-	Fatal(...interface{})
+	Fatal(v ...interface{})
 	Fatalf(format string, v ...interface{})
 	Fatalln(v ...interface{})
-	Panic(...interface{})
-	Panicf(string, ...interface{})
-	Panicln(...interface{})
-	Print(...interface{})
+	Panic(v ...interface{})
+	Panicf(s string, v ...interface{})
+	Panicln(v ...interface{})
+	Print(v ...interface{})
 	Printf(format string, v ...interface{})
 	Println(v ...interface{})
 }
