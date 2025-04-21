@@ -12,6 +12,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 // captureOutput captures the output of log, fmt or os.Stderr.WriteString
@@ -68,7 +69,7 @@ func TestLogLevel_String(t *testing.T) {
 
 	// Test for empty
 	level = 4
-	assert.Equal(t, "", level.String())
+	assert.Empty(t, level.String())
 }
 
 // ExampleLogLevel_String example using level.String()
@@ -114,8 +115,8 @@ func TestFileTagComponents(t *testing.T) {
 
 	// Test the level: 2
 	fileTagComps := FileTagComponents(2)
-	assert.NotEqual(t, 0, len(fileTagComps))
-	assert.Equal(t, 3, len(fileTagComps))
+	assert.NotEmpty(t, fileTagComps)
+	assert.Len(t, fileTagComps, 3)
 
 	// Test the part
 	assert.Equal(t, "testing/testing.go", fileTagComps[0])
@@ -128,8 +129,8 @@ func TestFileTagComponents(t *testing.T) {
 
 	// Test the level: 1
 	fileTagComps = FileTagComponents(1)
-	assert.NotEqual(t, 0, len(fileTagComps))
-	assert.Equal(t, 3, len(fileTagComps))
+	assert.NotEmpty(t, fileTagComps)
+	assert.Len(t, fileTagComps, 3)
 
 	// Test the part
 	assert.Equal(t, "go-logger/logger_test.go", fileTagComps[0])
@@ -336,7 +337,7 @@ func BenchmarkLogPkg_Println(b *testing.B) {
 func TestFatalf(t *testing.T) {
 
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotNil(t, client)
 
 	SetImplementation(client)
@@ -362,7 +363,7 @@ func TestFatalf(t *testing.T) {
 func TestFatal(t *testing.T) {
 
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotNil(t, client)
 
 	SetImplementation(client)
@@ -385,7 +386,7 @@ func TestFatal(t *testing.T) {
 func TestFatalln(t *testing.T) {
 
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotNil(t, client)
 
 	SetImplementation(client)
@@ -408,7 +409,7 @@ func TestFatalln(t *testing.T) {
 func TestPanic(t *testing.T) {
 
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotNil(t, client)
 
 	SetImplementation(client)
@@ -431,7 +432,7 @@ func TestPanic(t *testing.T) {
 func TestPanicln(t *testing.T) {
 
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotNil(t, client)
 
 	SetImplementation(client)
@@ -454,7 +455,7 @@ func TestPanicln(t *testing.T) {
 func TestPanicf(t *testing.T) {
 
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotNil(t, client)
 
 	SetImplementation(client)

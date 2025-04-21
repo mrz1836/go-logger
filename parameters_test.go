@@ -11,7 +11,7 @@ func TestMakeParameter(t *testing.T) {
 	param := MakeParameter("myKey", "myValue")
 	assert.Equal(t, "myKey", param.Key())
 	assert.Equal(t, "myValue", param.Value())
-	assert.Equal(t, `{"key":"myKey","value":"myValue"}`, param.String())
+	assert.JSONEq(t, `{"key":"myKey","value":"myValue"}`, param.String())
 }
 
 // BenchmarkMakeParameter benchmarks the MakeParameter() method

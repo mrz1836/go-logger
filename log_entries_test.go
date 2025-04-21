@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 const testToken = "token"
@@ -16,7 +17,7 @@ const testToken = "token"
 // TestNewLogEntriesClient will test the NewLogEntriesClient() method
 func TestNewLogEntriesClient(t *testing.T) {
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotNil(t, client)
 
 	assert.Equal(t, LogEntriesPort, client.port)
@@ -24,16 +25,16 @@ func TestNewLogEntriesClient(t *testing.T) {
 	assert.Equal(t, testToken, client.token)
 
 	client, err = NewLogEntriesClient(testToken, LogEntriesTestEndpoint, "101010")
-	assert.Error(t, err)
+	require.Error(t, err)
 	assert.NotNil(t, client)
 
 	client, err = NewLogEntriesClient(testToken, "http://badurl.com", LogEntriesPort)
-	assert.Error(t, err)
+	require.Error(t, err)
 	assert.NotNil(t, client)
 
 	// Double open
 	client, err = NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotNil(t, client)
 }
 
@@ -41,7 +42,7 @@ func TestNewLogEntriesClient(t *testing.T) {
 func TestMsgQueue_Enqueue(t *testing.T) {
 
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotNil(t, client)
 
 	var buff bytes.Buffer
@@ -50,7 +51,7 @@ func TestMsgQueue_Enqueue(t *testing.T) {
 	buff.WriteString("test")
 	client.messages.Enqueue(&buff)
 
-	assert.Equal(t, 1, len(client.messages.messagesToSend))
+	assert.Len(t, client.messages.messagesToSend, 1)
 
 	for x := range client.messages.messagesToSend {
 		assert.Equal(t, testToken+" test", x.String())
@@ -62,7 +63,7 @@ func TestMsgQueue_Enqueue(t *testing.T) {
 func TestMsgQueue_PushFront(t *testing.T) {
 
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotNil(t, client)
 
 	var buff bytes.Buffer
@@ -77,7 +78,7 @@ func TestMsgQueue_PushFront(t *testing.T) {
 	buff2.WriteString("first")
 	client.messages.PushFront(&buff2)
 
-	assert.Equal(t, 2, len(client.messages.messagesToSend))
+	assert.Len(t, client.messages.messagesToSend, 2)
 
 	go func() {
 		close(client.messages.messagesToSend)
@@ -95,7 +96,7 @@ func TestMsgQueue_PushFront(t *testing.T) {
 func TestLogClient_ProcessQueue(t *testing.T) {
 
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotNil(t, client)
 
 	go client.ProcessQueue()
@@ -108,31 +109,31 @@ func TestLogClient_ProcessQueue(t *testing.T) {
 
 	time.Sleep(3 * time.Second)
 
-	assert.Equal(t, 0, len(client.messages.messagesToSend))
+	assert.Empty(t, client.messages.messagesToSend)
 }
 
 // TestLogClient_Println will test the Println() method
 func TestLogClient_Println(t *testing.T) {
 
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotNil(t, client)
 
 	client.Println("test", "this")
 
-	assert.Equal(t, 1, len(client.messages.messagesToSend))
+	assert.Len(t, client.messages.messagesToSend, 1)
 }
 
 // TestLogClient_Printf will test the Printf() method
 func TestLogClient_Printf(t *testing.T) {
 
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotNil(t, client)
 
 	client.Printf("test %d", 1)
 
-	assert.Equal(t, 1, len(client.messages.messagesToSend))
+	assert.Len(t, client.messages.messagesToSend, 1)
 
 	go func() {
 		close(client.messages.messagesToSend)
@@ -150,7 +151,7 @@ func TestLogClient_Printf(t *testing.T) {
 func TestLogClient_Fatalf(t *testing.T) {
 
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotNil(t, client)
 
 	if os.Getenv("EXIT_FUNCTION") == "1" {
@@ -171,7 +172,7 @@ func TestLogClient_Fatalf(t *testing.T) {
 func TestLogClient_Fatalln(t *testing.T) {
 
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotNil(t, client)
 
 	if os.Getenv("EXIT_FUNCTION") == "1" {
