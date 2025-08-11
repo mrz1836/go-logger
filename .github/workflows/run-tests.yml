@@ -27,7 +27,7 @@ jobs:
 
       # Check out the code
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # Attempt to use caching
       - name: Use Caching
