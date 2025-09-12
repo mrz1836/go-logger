@@ -48,7 +48,6 @@ func captureOutput(f func()) string {
 
 // TestLogLevel_String test the log level to string method
 func TestLogLevel_String(t *testing.T) {
-
 	// Set the level
 	var level LogLevel
 
@@ -89,7 +88,6 @@ func BenchmarkLogLevel_String(b *testing.B) {
 
 // TestFileTag test file tag method
 func TestFileTag(t *testing.T) {
-
 	// File tag
 	fileTag := FileTag(1)
 	assert.Contains(t, fileTag, "go-logger/logger_test.go:go-logger.TestFileTag:")
@@ -112,7 +110,6 @@ func BenchmarkFileTag(b *testing.B) {
 
 // TestFileTagComponents test the file tag components method
 func TestFileTagComponents(t *testing.T) {
-
 	// Test the level: 2
 	fileTagComps := FileTagComponents(2)
 	assert.NotEmpty(t, fileTagComps)
@@ -335,7 +332,6 @@ func BenchmarkLogPkg_Println(b *testing.B) {
 
 // TestFatalf will test the Fatalf() method
 func TestFatalf(t *testing.T) {
-
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
 	require.NoError(t, err)
 	assert.NotNil(t, client)
@@ -361,7 +357,6 @@ func TestFatalf(t *testing.T) {
 
 // TestFatal will test the Fatal() method
 func TestFatal(t *testing.T) {
-
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
 	require.NoError(t, err)
 	assert.NotNil(t, client)
@@ -384,7 +379,6 @@ func TestFatal(t *testing.T) {
 
 // TestFatalln will test the Fatalln() method
 func TestFatalln(t *testing.T) {
-
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
 	require.NoError(t, err)
 	assert.NotNil(t, client)
@@ -407,7 +401,6 @@ func TestFatalln(t *testing.T) {
 
 // TestPanic will test the Panic() method
 func TestPanic(t *testing.T) {
-
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
 	require.NoError(t, err)
 	assert.NotNil(t, client)
@@ -430,7 +423,6 @@ func TestPanic(t *testing.T) {
 
 // TestPanicln will test the Panicln() method
 func TestPanicln(t *testing.T) {
-
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
 	require.NoError(t, err)
 	assert.NotNil(t, client)
@@ -453,7 +445,6 @@ func TestPanicln(t *testing.T) {
 
 // TestPanicf will test the Panicf() method
 func TestPanicf(t *testing.T) {
-
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
 	require.NoError(t, err)
 	assert.NotNil(t, client)

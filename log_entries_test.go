@@ -40,7 +40,6 @@ func TestNewLogEntriesClient(t *testing.T) {
 
 // TestMsgQueue_Enqueue will test the Enqueue() method
 func TestMsgQueue_Enqueue(t *testing.T) {
-
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
 	require.NoError(t, err)
 	assert.NotNil(t, client)
@@ -61,7 +60,6 @@ func TestMsgQueue_Enqueue(t *testing.T) {
 
 // TestMsgQueue_PushFront will test the PushFront() method
 func TestMsgQueue_PushFront(t *testing.T) {
-
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
 	require.NoError(t, err)
 	assert.NotNil(t, client)
@@ -94,7 +92,6 @@ func TestMsgQueue_PushFront(t *testing.T) {
 
 // TestLogClient_ProcessQueue will test the ProcessQueue() method
 func TestLogClient_ProcessQueue(t *testing.T) {
-
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
 	require.NoError(t, err)
 	assert.NotNil(t, client)
@@ -114,7 +111,6 @@ func TestLogClient_ProcessQueue(t *testing.T) {
 
 // TestLogClient_Println will test the Println() method
 func TestLogClient_Println(t *testing.T) {
-
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
 	require.NoError(t, err)
 	assert.NotNil(t, client)
@@ -126,7 +122,6 @@ func TestLogClient_Println(t *testing.T) {
 
 // TestLogClient_Printf will test the Printf() method
 func TestLogClient_Printf(t *testing.T) {
-
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
 	require.NoError(t, err)
 	assert.NotNil(t, client)
@@ -149,7 +144,6 @@ func TestLogClient_Printf(t *testing.T) {
 
 // TestLogClient_Fatalf will test the Fatalf() method
 func TestLogClient_Fatalf(t *testing.T) {
-
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
 	require.NoError(t, err)
 	assert.NotNil(t, client)
@@ -170,7 +164,6 @@ func TestLogClient_Fatalf(t *testing.T) {
 
 // TestLogClient_Fatalln will test the Fatalln() method
 func TestLogClient_Fatalln(t *testing.T) {
-
 	client, err := NewLogEntriesClient(testToken, LogEntriesTestEndpoint, LogEntriesPort)
 	require.NoError(t, err)
 	assert.NotNil(t, client)

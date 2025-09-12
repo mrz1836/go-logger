@@ -66,7 +66,6 @@ var implementation Logger
 
 // init function (different services)
 func init() {
-
 	// Detect token
 	logEntriesToken := os.Getenv("LOG_ENTRIES_TOKEN")
 

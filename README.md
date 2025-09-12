@@ -40,7 +40,7 @@ _(Optional)_ Set custom endpoint or port parameters
 ```shell script
 export LOG_ENTRIES_ENDPOINT=us.data.logs.insight.rapid7.com
 export LOG_ENTRIES_PORT=514
-``` 
+```
 
 <br/>
 
@@ -110,7 +110,7 @@ vet                  Run the Go vet application
 
 ## Examples & Tests
 All unit tests and [examples](examples) run via [GitHub Actions](https://github.com/mrz1836/go-logger/actions) and
-uses [Go version 1.17.x](https://golang.org/doc/go1.17). View the [configuration file](.github/workflows/run-tests.yml).
+uses [Go version 1.21.x](https://golang.org/doc/go1.21). View the [configuration file](.github/workflows/run-tests.yml).
 
 Run all tests (including integration tests)
 ```shell script
@@ -166,9 +166,9 @@ func main() {
 View the [contributing guidelines](.github/CONTRIBUTING.md) and please follow the [code of conduct](.github/CODE_OF_CONDUCT.md).
 
 ### How can I help?
-All kinds of contributions are welcome :raised_hands:! 
-The most basic way to show your support is to star :star2: the project, or to raise issues :speech_balloon:. 
-You can also support this project by [becoming a sponsor on GitHub](https://github.com/sponsors/mrz1836) :clap: 
+All kinds of contributions are welcome :raised_hands:!
+The most basic way to show your support is to star :star2: the project, or to raise issues :speech_balloon:.
+You can also support this project by [becoming a sponsor on GitHub](https://github.com/sponsors/mrz1836) :clap:
 or by making a [**bitcoin donation**](https://mrz1818.com/?tab=tips&af=go-logger) to ensure this journey continues indefinitely! :rocket:
 
 <br/>
