@@ -120,11 +120,35 @@ func FileTag(level int) string {
 
 // FileTagComponents file tag components
 func FileTagComponents(level int) []string {
-	pc, file, line, _ := runtime.Caller(level)
+	pc, file, line, ok := runtime.Caller(level)
+	if !ok {
+		return []string{"unknown", "unknown", "0"}
+	}
+
 	path := strings.Split(file, "/")
+	var filePath string
+	if len(path) >= 2 {
+		filePath = strings.Join(path[len(path)-2:], "/")
+	} else if len(path) == 1 {
+		filePath = path[0]
+	} else {
+		filePath = "unknown"
+	}
+
 	fn := runtime.FuncForPC(pc)
-	methodPath := strings.Split(fn.Name(), "/")
-	return []string{strings.Join(path[len(path)-2:], "/"), methodPath[len(methodPath)-1], strconv.Itoa(line)}
+	var methodName string
+	if fn != nil {
+		methodPath := strings.Split(fn.Name(), "/")
+		if len(methodPath) > 0 {
+			methodName = methodPath[len(methodPath)-1]
+		} else {
+			methodName = "unknown"
+		}
+	} else {
+		methodName = "unknown"
+	}
+
+	return []string{filePath, methodName, strconv.Itoa(line)}
 }
 
 // Panic is equivalent to Print() followed by a call to os.Exit(1)
