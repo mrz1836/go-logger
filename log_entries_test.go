@@ -2,6 +2,7 @@ package logger
 
 import (
 	"bytes"
+	"context"
 	"errors"
 	"os"
 	"os/exec"
@@ -152,7 +153,7 @@ func TestLogClient_Fatalf(t *testing.T) {
 		client.Fatalf("test %d", 1)
 		return
 	}
-	cmd := exec.Command(os.Args[0], "-test.run=TestLogClient_Fatalf") //nolint:gosec // G204
+	cmd := exec.CommandContext(context.Background(), os.Args[0], "-test.run=TestLogClient_Fatalf") //nolint:gosec // G204
 	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
 	err = cmd.Run()
 	var e *exec.ExitError
@@ -172,7 +173,7 @@ func TestLogClient_Fatalln(t *testing.T) {
 		client.Fatalln("test exit")
 		return
 	}
-	cmd := exec.Command(os.Args[0], "-test.run=TestLogClient_Fatalln") //nolint:gosec // G204
+	cmd := exec.CommandContext(context.Background(), os.Args[0], "-test.run=TestLogClient_Fatalln") //nolint:gosec // G204
 	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
 	err = cmd.Run()
 	var e *exec.ExitError

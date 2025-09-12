@@ -121,15 +121,6 @@ func (l *LogClient) ProcessQueue() {
 	}
 }
 
-// write will write the data to the que
-func (l *LogClient) write(data string) {
-	var buff bytes.Buffer
-	buff.WriteString(l.token)
-	buff.WriteByte(' ')
-	buff.WriteString(data)
-	l.messages.Enqueue(&buff)
-}
-
 // Panic overloads built-in method
 func (l *LogClient) Panic(v ...interface{}) {
 	var buff bytes.Buffer
@@ -209,6 +200,15 @@ func (l *LogClient) Fatalf(format string, v ...interface{}) {
 	_ = l.sendOne(&buff)
 	time.Sleep(2 * time.Second)
 	os.Exit(1)
+}
+
+// write will write the data to the que
+func (l *LogClient) write(data string) {
+	var buff bytes.Buffer
+	buff.WriteString(l.token)
+	buff.WriteByte(' ')
+	buff.WriteString(data)
+	l.messages.Enqueue(&buff)
 }
 
 // sendOne sends one log

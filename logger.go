@@ -62,9 +62,13 @@ const (
 type logPkg struct{}
 
 // implementation is the current implementation of Logger
+//
+//nolint:gochecknoglobals // Global variable required for logger package design
 var implementation Logger
 
 // init function (different services)
+//
+//nolint:gochecknoinits // Init function required for automatic logger configuration
 func init() {
 	// Detect token
 	logEntriesToken := os.Getenv("LOG_ENTRIES_TOKEN")

@@ -2,6 +2,7 @@ package logger
 
 import (
 	"bytes"
+	"context"
 	"errors"
 	"fmt"
 	"io"
@@ -345,7 +346,7 @@ func TestFatalf(t *testing.T) {
 		Fatalf("test %d", 1)
 		return
 	}
-	cmd := exec.Command(os.Args[0], "-test.run=TestFatalf") //nolint:gosec // G204
+	cmd := exec.CommandContext(context.Background(), os.Args[0], "-test.run=TestFatalf") //nolint:gosec // G204
 	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
 	err = cmd.Run()
 	var e *exec.ExitError
@@ -367,7 +368,7 @@ func TestFatal(t *testing.T) {
 		Fatal("test exit")
 		return
 	}
-	cmd := exec.Command(os.Args[0], "-test.run=TestFatal") //nolint:gosec // G204
+	cmd := exec.CommandContext(context.Background(), os.Args[0], "-test.run=TestFatal") //nolint:gosec // G204
 	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
 	err = cmd.Run()
 	var e *exec.ExitError
@@ -389,7 +390,7 @@ func TestFatalln(t *testing.T) {
 		Fatalln("test exit")
 		return
 	}
-	cmd := exec.Command(os.Args[0], "-test.run=TestFatalln") //nolint:gosec // G204
+	cmd := exec.CommandContext(context.Background(), os.Args[0], "-test.run=TestFatalln") //nolint:gosec // G204
 	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
 	err = cmd.Run()
 	var e *exec.ExitError
@@ -411,7 +412,7 @@ func TestPanic(t *testing.T) {
 		Panic("test exit")
 		return
 	}
-	cmd := exec.Command(os.Args[0], "-test.run=TestPanic") //nolint:gosec // G204
+	cmd := exec.CommandContext(context.Background(), os.Args[0], "-test.run=TestPanic") //nolint:gosec // G204
 	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
 	err = cmd.Run()
 	var e *exec.ExitError
@@ -433,7 +434,7 @@ func TestPanicln(t *testing.T) {
 		Panicln("test exit")
 		return
 	}
-	cmd := exec.Command(os.Args[0], "-test.run=TestPanicln") //nolint:gosec // G204
+	cmd := exec.CommandContext(context.Background(), os.Args[0], "-test.run=TestPanicln") //nolint:gosec // G204
 	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
 	err = cmd.Run()
 	var e *exec.ExitError
@@ -458,7 +459,7 @@ func TestPanicf(t *testing.T) {
 		Panicf("test %d", 1)
 		return
 	}
-	cmd := exec.Command(os.Args[0], "-test.run=TestPanicf") //nolint:gosec // G204
+	cmd := exec.CommandContext(context.Background(), os.Args[0], "-test.run=TestPanicf") //nolint:gosec // G204
 	cmd.Env = append(os.Environ(), "EXIT_FUNCTION=1")
 	err = cmd.Run()
 	var e *exec.ExitError
