@@ -77,7 +77,7 @@
 
 <br/>
 
-## 🗂️ Table of Contents
+## Table of Contents
 * [Installation](#installation)
 * [Documentation](#documentation)
 * [Examples & Tests](#examples--tests)
@@ -94,7 +94,7 @@
 
 **go-logger** requires a [supported release of Go](https://golang.org/doc/devel/release.html#policy).
 ```shell script
-go get -u github.com/mrz1836/go-logger
+go get github.com/mrz1836/go-logger
 ```
 
 For use with [Log Entries (Rapid7)](https://www.rapid7.com/products/insightops/), change the environment variables:
