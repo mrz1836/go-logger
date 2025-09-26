@@ -217,13 +217,14 @@ func (l *LogClient) sendOne(msg *bytes.Buffer) (err error) {
 		if err = l.Connect(); err != nil {
 			log.Println(msg.String())
 			log.Println("failed reconnecting to log provider", err)
-			return
+
+			return err
 		}
 	}
 	if _, err = l.conn.Write(msg.Bytes()); err != nil {
 		log.Println(msg.String())
 		log.Println("failed to write to log provider", err)
-		return
+		return err
 	}
-	return
+	return nil
 }
