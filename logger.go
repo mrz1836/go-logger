@@ -153,14 +153,16 @@ func FileTagComponents(level int) []string {
 
 // Panic is equivalent to Print() followed by a call to os.Exit(1)
 func Panic(v ...interface{}) {
-	values := []interface{}{FileTag(2)}
+	values := make([]interface{}, 0, 1+len(v))
+	values = append(values, FileTag(2))
 	values = append(values, v...)
 	implementation.Panic(values...)
 }
 
 // Panicln is equivalent to Println() followed by a call to os.Exit(1)
 func Panicln(v ...interface{}) {
-	values := []interface{}{FileTag(2)}
+	values := make([]interface{}, 0, 1+len(v))
+	values = append(values, FileTag(2))
 	values = append(values, v...)
 	implementation.Panicln(values...)
 }
@@ -173,7 +175,8 @@ func Panicf(format string, v ...interface{}) {
 // Print calls Output to print to the connected logger.
 // Arguments are handled in the manner of fmt.Print.
 func Print(v ...interface{}) {
-	values := []interface{}{FileTag(2)}
+	values := make([]interface{}, 0, 1+len(v))
+	values = append(values, FileTag(2))
 	values = append(values, v...)
 	implementation.Print(values...)
 }
@@ -181,7 +184,8 @@ func Print(v ...interface{}) {
 // Println calls Output to print to the connected logger.
 // Arguments are handled in the manner of fmt.Println.
 func Println(v ...interface{}) {
-	values := []interface{}{FileTag(2)}
+	values := make([]interface{}, 0, 1+len(v))
+	values = append(values, FileTag(2))
 	values = append(values, v...)
 	implementation.Println(values...)
 }
@@ -195,9 +199,7 @@ func Printf(format string, v ...interface{}) {
 // NoFilePrintln calls Output to print to the connected logger.
 // Arguments are handled in the manner of fmt.Println.
 func NoFilePrintln(v ...interface{}) {
-	var values []interface{}
-	values = append(values, v...)
-	implementation.Println(values...)
+	implementation.Println(v...)
 }
 
 // NoFilePrintf calls Output to print to the connected logger.
@@ -208,14 +210,16 @@ func NoFilePrintf(format string, v ...interface{}) {
 
 // Fatal is equivalent to Print() followed by a call to os.Exit(1)
 func Fatal(v ...interface{}) {
-	values := []interface{}{FileTag(2)}
+	values := make([]interface{}, 0, 1+len(v))
+	values = append(values, FileTag(2))
 	values = append(values, v...)
 	implementation.Fatal(values...)
 }
 
 // Fatalln is equivalent to Println() followed by a call to os.Exit(1)
 func Fatalln(v ...interface{}) {
-	values := []interface{}{FileTag(2)}
+	values := make([]interface{}, 0, 1+len(v))
+	values = append(values, FileTag(2))
 	values = append(values, v...)
 	implementation.Fatalln(values...)
 }
@@ -230,7 +234,8 @@ func Fatalf(format string, v ...interface{}) {
 // location from where Errorln is called, and is equivalent to Println.
 // Larger numbers step further back in the stack
 func Errorln(stackLevel int, v ...interface{}) {
-	values := []interface{}{FileTag(stackLevel)}
+	values := make([]interface{}, 0, 1+len(v))
+	values = append(values, FileTag(stackLevel))
 	values = append(values, v...)
 	implementation.Println(values...)
 }
