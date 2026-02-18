@@ -91,7 +91,7 @@ func init() {
 		var err error
 		implementation, err = NewLogEntriesClient(logEntriesToken, logEntriesEndpoint, logEntriesPort)
 		if err != nil {
-			log.Printf("go-logger: failed to eager connect to Log Entries: %s", err.Error())
+			log.Println("go-logger: failed to eager connect to Log Entries:", err.Error()) //nolint:gosec // G706: error originates from stdlib network functions, not user input
 		} else {
 			log.Println("go-logger: Log Entries connection started")
 			go implementation.(*LogClient).ProcessQueue()
@@ -267,7 +267,7 @@ func Data(stackLevel int, logLevel LogLevel, message string, args ...KeyValue) {
 		buf.WriteByte(' ')
 		buf.WriteString(arg.Key())
 		buf.WriteString(`="`)
-		buf.WriteString(fmt.Sprint(arg.Value()))
+		fmt.Fprint(&buf, arg.Value())
 		buf.WriteByte('"')
 	}
 
@@ -288,7 +288,7 @@ func NoFileData(logLevel LogLevel, message string, args ...KeyValue) {
 		buf.WriteByte(' ')
 		buf.WriteString(arg.Key())
 		buf.WriteString(`="`)
-		buf.WriteString(fmt.Sprint(arg.Value()))
+		fmt.Fprint(&buf, arg.Value())
 		buf.WriteByte('"')
 	}
 
