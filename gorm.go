@@ -111,7 +111,8 @@ func (l *basicGormLogger) Trace(_ context.Context, begin time.Time, fc func() (s
 	switch {
 	case err != nil && l.logLevel >= Error && (!strings.Contains(err.Error(), "record not found")):
 		sql, rows := fc()
-		Data(l.stackLevel, ERROR,
+		Data(
+			l.stackLevel, ERROR,
 			"error executing query",
 			MakeParameter("file", fileWithLineNum()),
 			MakeParameter("error", err.Error()),
@@ -121,7 +122,8 @@ func (l *basicGormLogger) Trace(_ context.Context, begin time.Time, fc func() (s
 		)
 	case elapsed > SlowQueryThreshold && l.logLevel >= Warn:
 		sql, rows := fc()
-		Data(l.stackLevel, WARN,
+		Data(
+			l.stackLevel, WARN,
 			"warning executing query",
 			MakeParameter("file", fileWithLineNum()),
 			MakeParameter("slow_log", fmt.Sprintf("SLOW SQL >= %v", SlowQueryThreshold)),
@@ -131,7 +133,8 @@ func (l *basicGormLogger) Trace(_ context.Context, begin time.Time, fc func() (s
 		)
 	case l.logLevel == Info:
 		sql, rows := fc()
-		Data(l.stackLevel, INFO,
+		Data(
+			l.stackLevel, INFO,
 			"executing sql query",
 			MakeParameter("file", fileWithLineNum()),
 			MakeParameter("duration", fmt.Sprintf("%.3fms", float64(elapsed.Nanoseconds())/1e6)),

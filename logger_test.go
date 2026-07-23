@@ -9,12 +9,22 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
+	"runtime"
 	"sync"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
+
+// testFileTag is the "<dir>/logger_test.go" prefix FileTag/FileTagComponents
+// produce for this file, derived from the checkout's actual directory name
+// rather than hardcoded, since that name varies across checkouts/CI runners.
+var testFileTag = func() string { //nolint:gochecknoglobals // computed once for reuse across many test assertions in this file
+	_, file, _, _ := runtime.Caller(0)
+	return filepath.Base(filepath.Dir(file)) + "/logger_test.go"
+}()
 
 // captureOutput captures the output of log, fmt or os.Stderr.WriteString
 func captureOutput(f func()) string {
@@ -91,7 +101,7 @@ func BenchmarkLogLevel_String(b *testing.B) {
 func TestFileTag(t *testing.T) {
 	// File tag
 	fileTag := FileTag(1)
-	assert.Contains(t, fileTag, "go-logger/logger_test.go:go-logger.TestFileTag:")
+	assert.Contains(t, fileTag, testFileTag+":go-logger.TestFileTag:")
 }
 
 // ExampleFileTag example using FileTag()
@@ -131,7 +141,7 @@ func TestFileTagComponents(t *testing.T) {
 	assert.Len(t, fileTagComps, 3)
 
 	// Test the part
-	assert.Equal(t, "go-logger/logger_test.go", fileTagComps[0])
+	assert.Equal(t, testFileTag, fileTagComps[0])
 
 	// Test the part
 	assert.Equal(t, "go-logger.TestFileTagComponents", fileTagComps[1])
@@ -140,8 +150,8 @@ func TestFileTagComponents(t *testing.T) {
 // ExampleFileTagComponents example using FileTagComponents()
 func ExampleFileTagComponents() {
 	fileTag := FileTagComponents(1)
-	fmt.Println(fileTag[0])
-	// Output:go-logger/logger_test.go
+	fmt.Println(filepath.Base(fileTag[0]))
+	// Output:logger_test.go
 }
 
 // BenchmarkFileTaComponents benchmarks the FileTagComponents() method
@@ -157,7 +167,7 @@ func TestPrintln(t *testing.T) {
 		Println("test this method")
 	})
 
-	assert.Contains(t, captured, "go-logger/logger_test.go:go-logger.TestPrintln")
+	assert.Contains(t, captured, testFileTag+":go-logger.TestPrintln")
 	assert.Contains(t, captured, "test this method")
 }
 
@@ -167,7 +177,7 @@ func TestPrint(t *testing.T) {
 		Print("test this method")
 	})
 
-	assert.Contains(t, captured, "go-logger/logger_test.go:go-logger.TestPrint")
+	assert.Contains(t, captured, testFileTag+":go-logger.TestPrint")
 	assert.Contains(t, captured, "test this method")
 }
 
@@ -192,7 +202,7 @@ func TestPrintf(t *testing.T) {
 		Printf("test this method: %s", "TestPrintf")
 	})
 
-	assert.Contains(t, captured, "go-logger/logger_test.go:go-logger.TestPrintf")
+	assert.Contains(t, captured, testFileTag+":go-logger.TestPrintf")
 	assert.Contains(t, captured, "test this method: TestPrintf")
 }
 
@@ -218,7 +228,7 @@ func TestErrorln(t *testing.T) {
 		Errorln(2, "test this method")
 	})
 
-	assert.Contains(t, captured, "go-logger/logger_test.go:go-logger.TestErrorln")
+	assert.Contains(t, captured, testFileTag+":go-logger.TestErrorln")
 	assert.Contains(t, captured, "test this method")
 }
 
@@ -235,7 +245,7 @@ func TestErrorfmt(t *testing.T) {
 		Errorfmt(2, "test this method: %s", "Errorfmt")
 	})
 
-	assert.Contains(t, captured, "go-logger/logger_test.go:go-logger.TestErrorfmt")
+	assert.Contains(t, captured, testFileTag+":go-logger.TestErrorfmt")
 	assert.Contains(t, captured, "test this method: Errorfmt")
 }
 
@@ -258,7 +268,7 @@ func TestData(t *testing.T) {
 	assert.Contains(t, captured, `type="warn"`)
 
 	// Check for file
-	assert.Contains(t, captured, `file="go-logger/logger_test.go"`)
+	assert.Contains(t, captured, fmt.Sprintf(`file="%s"`, testFileTag))
 
 	// Check for method
 	assert.Contains(t, captured, `method="go-logger.TestData.func1"`)

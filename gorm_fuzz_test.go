@@ -21,19 +21,27 @@ type testLoggerImpl struct {
 }
 
 func (t *testLoggerImpl) Fatal(v ...interface{}) { t.messages = append(t.messages, fmt.Sprint(v...)) }
+
 func (t *testLoggerImpl) Fatalf(format string, v ...interface{}) {
 	t.messages = append(t.messages, fmt.Sprintf(format, v...))
 }
+
 func (t *testLoggerImpl) Fatalln(v ...interface{}) { t.messages = append(t.messages, fmt.Sprint(v...)) }
-func (t *testLoggerImpl) Panic(v ...interface{})   { t.messages = append(t.messages, fmt.Sprint(v...)) }
+
+func (t *testLoggerImpl) Panic(v ...interface{}) { t.messages = append(t.messages, fmt.Sprint(v...)) }
+
 func (t *testLoggerImpl) Panicf(s string, v ...interface{}) {
 	t.messages = append(t.messages, fmt.Sprintf(s, v...))
 }
+
 func (t *testLoggerImpl) Panicln(v ...interface{}) { t.messages = append(t.messages, fmt.Sprint(v...)) }
-func (t *testLoggerImpl) Print(v ...interface{})   { t.messages = append(t.messages, fmt.Sprint(v...)) }
+
+func (t *testLoggerImpl) Print(v ...interface{}) { t.messages = append(t.messages, fmt.Sprint(v...)) }
+
 func (t *testLoggerImpl) Printf(format string, v ...interface{}) {
 	t.messages = append(t.messages, fmt.Sprintf(format, v...))
 }
+
 func (t *testLoggerImpl) Println(v ...interface{}) { t.messages = append(t.messages, fmt.Sprint(v...)) }
 
 func FuzzNewGormLogger(f *testing.F) {
